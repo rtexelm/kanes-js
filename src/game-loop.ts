@@ -15,8 +15,8 @@ export function gameLoop() {
   // Update phase
   applyInput(world);
   updateMovement(world);
-  updateSegments(world);
   updatePlayerView(world);
+  // updateSegments(world);
 
   // Sync phase
   syncRenderer(world);

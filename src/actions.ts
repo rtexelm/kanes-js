@@ -8,11 +8,12 @@ import { prevVelocity } from "./traits/prevVelocity";
 
 export const actions = createActions((world) => ({
   createPlayer: (x: number, y: number) => {
+    const tail = { x, y: 2 * SNAKE_WIDTH + y };
     const player = world.spawn(
       Position({ x, y }),
       Velocity,
       prevVelocity,
-      Player({ tail: { x, y: 2 * SNAKE_WIDTH + y } }),
+      Player({ segments: [tail], tail: tail }),
       Input,
       Movement({ speed: 20, direction: Direction.Down })
     );

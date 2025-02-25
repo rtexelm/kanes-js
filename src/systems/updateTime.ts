@@ -10,6 +10,5 @@ export function updateTime(world: World) {
   time.delta = now - time.current;
   time.delta = Math.min(time.delta / 1000, 1 / 30);
   time.current = now;
-
   world.set(Time, time);
 }
