@@ -2,6 +2,8 @@ import { applyInput } from "./systems/applyInput";
 import { pollInput } from "./systems/pollInputs";
 import { syncRenderer } from "./systems/syncRenderer";
 import { updateMovement } from "./systems/updateMovement";
+import { updatePlayerView } from "./systems/updatePlayerView";
+import { updateSegments } from "./systems/updateSegments";
 import { updateTime } from "./systems/updateTime";
 import { world } from "./world";
 
@@ -13,6 +15,8 @@ export function gameLoop() {
   // Update phase
   applyInput(world);
   updateMovement(world);
+  updateSegments(world);
+  updatePlayerView(world);
 
   // Sync phase
   syncRenderer(world);

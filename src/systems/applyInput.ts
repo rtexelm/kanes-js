@@ -1,5 +1,12 @@
 import { World } from "koota";
-import { Input, Movement, Velocity } from "../traits";
+import {
+  Input,
+  Movement,
+  Player,
+  Position,
+  Velocity,
+  prevVelocity,
+} from "../traits";
 import { Direction } from "../traits/movement";
 
 const velocityMap: Record<Direction, { x: number; y: number }> = {
@@ -20,12 +27,11 @@ function getNewDirection(
   input: { x: number; y: number },
   direction: Direction
 ) {
-  if (input.x === 0 && input.y === 0) {
+  const { x, y } = input;
+  if (x === 0 && y === 0) {
     return direction;
   }
-  const { x, y } = input;
 
-  // Map input directly to the direction unless it is the opposite direction
   const inputDirection =
     x === -1
       ? Direction.Left
@@ -35,7 +41,7 @@ function getNewDirection(
       ? Direction.Up
       : y === 1
       ? Direction.Down
-      : direction; // No change in direction if no input
+      : direction;
 
   return inputDirection !== oppositeDirectionMap[direction]
     ? inputDirection
@@ -44,14 +50,32 @@ function getNewDirection(
 
 export function applyInput(world: World) {
   // Query entities with input, transform, and movement components
-  const results = world.query(Input, Movement, Velocity);
+  const results = world.query(
+    Input,
+    Movement,
+    Velocity,
+    prevVelocity,
+    Player,
+    Position
+  );
 
-  results.updateEach(([input, movement, velocity]) => {
-    const { direction, speed } = movement;
-    movement.direction = getNewDirection(input, direction);
+  results.updateEach(
+    ([input, movement, velocity, prevVelocity, player, position]) => {
+      const { direction, speed } = movement;
+      const newDirection = getNewDirection(input, direction);
 
-    const { x, y } = velocityMap[direction];
-    velocity.x = x * speed * 10;
-    velocity.y = y * speed * 10;
-  });
+      // If the new direction is different from the current direction, add a new segment position to the beginning of the segments array
+      if (newDirection !== direction) {
+        player.segments.unshift({ x: position.x, y: position.y });
+        movement.direction = newDirection;
+      }
+      prevVelocity.x = velocity.x;
+      prevVelocity.y = velocity.y;
+      // movement.direction = getNewDirection(input, direction);
+
+      const { x, y } = velocityMap[direction];
+      velocity.x = x * speed * 10;
+      velocity.y = y * speed * 10;
+    }
+  );
 }
