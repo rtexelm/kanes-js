@@ -1,6 +1,6 @@
 import { World } from "koota";
 import { SNAKE_WIDTH } from "../constants";
-import { Player, Position, Velocity, prevVelocity } from "../traits";
+import { Player, Position, Velocity, PrevVelocity } from "../traits";
 
 function createSegmentElement(
   from: { x: number; y: number },
@@ -70,7 +70,7 @@ function updateLatestSegment(
 export function updatePlayerView(world: World) {
   const viewport = document.querySelector(".viewport");
 
-  const results = world.query(Player, Position, Velocity, prevVelocity);
+  const results = world.query(Player, Position, Velocity, PrevVelocity);
   results.updateEach(([player, position, velocity, prevVelocity]) => {
     const { color, segments, tail } = player;
 
@@ -83,15 +83,16 @@ export function updatePlayerView(world: World) {
     if (velocity.x !== prevVelocity.x || velocity.y !== prevVelocity.y) {
       const segmentElement = createSegmentElement(position, segments[0], color);
       viewport?.appendChild(segmentElement);
-    } else {
-      const allSegmentElements = viewport?.querySelectorAll(".segment");
-      const latestSegment = allSegmentElements?.[
-        allSegmentElements?.length - 1
-      ] as HTMLElement;
-      if (latestSegment) {
-        console.log("updatingLatestSegment");
-        updateLatestSegment(position, segments[0], latestSegment);
-      }
+    }
+
+    const allSegmentElements = viewport?.querySelectorAll(".segment");
+    const latestSegment = allSegmentElements?.[
+      allSegmentElements?.length - 1
+    ] as HTMLElement;
+    console.log("latestSegment", latestSegment);
+    if (latestSegment) {
+      console.log("updatingLatestSegment");
+      updateLatestSegment(position, segments[0], latestSegment);
     }
 
     // const snakeCoordinates = [position, ...segments, tail];

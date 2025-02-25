@@ -10,3 +10,5 @@ gameLoop();
 const { createPlayer } = actions(world);
 drawViewport();
 createPlayer(400, 300);
+
+// matterJS for collision detection

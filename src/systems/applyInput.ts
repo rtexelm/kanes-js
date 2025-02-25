@@ -5,7 +5,7 @@ import {
   Player,
   Position,
   Velocity,
-  prevVelocity,
+  PrevVelocity,
 } from "../traits";
 import { Direction } from "../traits/movement";
 
@@ -54,7 +54,7 @@ export function applyInput(world: World) {
     Input,
     Movement,
     Velocity,
-    prevVelocity,
+    PrevVelocity,
     Player,
     Position
   );
