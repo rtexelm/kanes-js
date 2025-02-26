@@ -6,3 +6,4 @@ export { Ref } from "./ref";
 export { Time } from "./time";
 export { Input } from "./input";
 export { Movement } from "./movement";
+export { Segment } from "./segment";

@@ -6,3 +6,10 @@ export function drawViewport() {
   viewport.classList.add("viewport");
   body?.appendChild(viewport);
 }
+
+// draw the game in a p5 canvas
+export function drawViewportP5() {
+  const setup = () => {
+    createCanvas(800, 600);
+  };
+}
