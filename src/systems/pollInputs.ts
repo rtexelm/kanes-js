@@ -1,6 +1,7 @@
 import { World } from "koota";
 import { Input, Player } from "../traits";
 
+// Poll the input from the user with dom system
 const keys = {
   arrowUp: false,
   arrowDown: false,
@@ -85,16 +86,30 @@ window.addEventListener("keyup", (e) => {
 });
 
 export function pollInput(world: World) {
-  world.query(Input, Player).updateEach(([input]) => {
+  world.query(Input, Player).updateEach(([input, player]) => {
     // Get horizontal and vertical input.
 
-    const horizontal =
-      (keys.arrowRight || keys.d ? 1 : 0) - (keys.arrowLeft || keys.a ? 1 : 0);
+    const { controlsScheme } = player;
 
-    const vertical =
-      // y axis uses an inverted cartesian plain for DOM coordinate system
+    let horizontal = 0;
+    let vertical = 0;
+
+    switch (controlsScheme) {
+      // y axis uses an inverted plain for DOM coordinate system
       // thus we need to invert the vertical axis input
-      (keys.arrowDown || keys.s ? 1 : 0) - (keys.arrowUp || keys.w ? 1 : 0);
+      case "wasd":
+        horizontal = (keys.d ? 1 : 0) - (keys.a ? 1 : 0);
+        vertical = (keys.s ? 1 : 0) - (keys.w ? 1 : 0);
+        break;
+
+      case "arrows":
+        horizontal = (keys.arrowRight ? 1 : 0) - (keys.arrowLeft ? 1 : 0);
+        vertical = (keys.arrowDown ? 1 : 0) - (keys.arrowUp ? 1 : 0);
+        break;
+
+      default:
+        break;
+    }
 
     // Normalize the vector if moving diagonally.
 

@@ -7,7 +7,7 @@ import {
   Velocity,
   PrevVelocity,
 } from "../traits";
-import { Direction } from "../traits/movement";
+import { Direction } from "../types";
 
 const velocityMap: Record<Direction, { x: number; y: number }> = {
   [Direction.Up]: { x: 0, y: -1 },

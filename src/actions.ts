@@ -1,21 +1,21 @@
 import { createActions, Entity } from "koota";
-import { Input, Movement, Player, Position, Velocity } from "./traits";
+import { Input, Movement, Player, Position, Velocity, Food } from "./traits";
 import { drawPlayerView } from "./renderer/drawPlayer";
 import { erasePlayerView } from "./renderer/erasePlayer";
-import { Direction } from "./traits/movement";
-import { SNAKE_WIDTH } from "./constants";
-import { PrevVelocity } from "./traits/prevVelocity";
 
 export const actions = createActions((world) => ({
-  createPlayer: (x: number, y: number) => {
-    const tail = { x, y: 2 * SNAKE_WIDTH + y };
+  createPlayer: (
+    x: number,
+    y: number,
+    color: string,
+    controlsScheme: string
+  ) => {
     const player = world.spawn(
       Position({ x, y }),
       Velocity,
-      PrevVelocity,
-      Player({ segments: [tail], tail: tail }),
+      Player({ color, controlsScheme }),
       Input,
-      Movement({ speed: 20, direction: Direction.Down })
+      Movement({ speed: 20 })
     );
     drawPlayerView(player);
     return player;
@@ -23,5 +23,13 @@ export const actions = createActions((world) => ({
   destroyPlayer: (player: Entity) => {
     erasePlayerView(player);
     player.destroy();
+  },
+  createFood: (x: number, y: number) => {
+    const food = world.spawn(Position({ x, y }), Food);
+    return food;
+  },
+  destroyFood: (food: Entity) => {
+    food.destroy();
+    // TODO: Add logic to remove food from the renderer
   },
 }));

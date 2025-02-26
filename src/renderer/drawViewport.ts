@@ -11,5 +11,12 @@ export function drawViewport() {
 export function drawViewportP5() {
   const setup = () => {
     createCanvas(800, 600);
+    background(0);
   };
+
+  const draw = () => {
+    background(0);
+  };
+
+  return { setup, draw };
 }

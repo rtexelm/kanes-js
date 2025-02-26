@@ -6,4 +6,6 @@ export { Ref } from "./ref";
 export { Time } from "./time";
 export { Input } from "./input";
 export { Movement } from "./movement";
-export { Segment } from "./segment";
+export { Direction } from "./direction";
+export { Length } from "./length";
+export { Food } from "./food";
