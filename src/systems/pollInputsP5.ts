@@ -1,7 +1,9 @@
 import { World } from "koota";
 import { Input, Player } from "../traits";
+import p5 from "p5";
 
-export function applyInputForP5(world: World) {
+export function pollInputsP5(world: World, sketch: p5) {
+  // const { key } = e;
   world.query(Input, Player).updateEach(([input, player]) => {
     const { controlsScheme } = player;
 
@@ -12,13 +14,19 @@ export function applyInputForP5(world: World) {
       // y axis uses an inverted plain for DOM coordinate system
       // thus we need to invert the vertical axis input
       case "wasd":
-        horizontal = (key === "d" ? 1 : 0) - (key === "a" ? 1 : 0);
-        vertical = (keys === "s" ? 1 : 0) - (keys === "w" ? 1 : 0);
+        horizontal =
+          (sketch.key === "d" ? 1 : 0) - (sketch.key === "a" ? 1 : 0);
+        vertical = (sketch.key === "s" ? 1 : 0) - (sketch.key === "w" ? 1 : 0);
+        console.log(sketch.key);
         break;
 
       case "arrows":
-        horizontal = (keys === "ArrowRight" ? 1 : 0) - (keys.arrowLeft ? 1 : 0);
-        vertical = (keys.arrowDown ? 1 : 0) - (keys.arrowUp ? 1 : 0);
+        horizontal =
+          (sketch.keyCode === sketch.RIGHT_ARROW ? 1 : 0) -
+          (sketch.keyCode === (sketch.LEFT_ARROW as number) ? 1 : 0);
+        vertical =
+          (sketch.keyCode === sketch.DOWN_ARROW ? 1 : 0) -
+          (sketch.keyCode === sketch.UP_ARROW ? 1 : 0);
         break;
 
       default:
@@ -39,8 +47,4 @@ export function applyInputForP5(world: World) {
       input.y = 0;
     }
   });
-
-  function keyPressed() {}
-
-  return keyPressed;
 }

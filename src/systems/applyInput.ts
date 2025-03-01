@@ -7,75 +7,64 @@ import {
   Velocity,
   PrevVelocity,
 } from "../traits";
-import { Direction } from "../types";
+// import { Directions } from "../types";
 
-const velocityMap: Record<Direction, { x: number; y: number }> = {
-  [Direction.Up]: { x: 0, y: -1 },
-  [Direction.Down]: { x: 0, y: 1 },
-  [Direction.Left]: { x: -1, y: 0 },
-  [Direction.Right]: { x: 1, y: 0 },
-};
+// const velocityMap: Record<number, { x: number; y: number }> = {
+//   [Directions.Up]: { x: 0, y: -1 },
+//   [Directions.Down]: { x: 0, y: 1 },
+//   [Directions.Left]: { x: -1, y: 0 },
+//   [Directions.Right]: { x: 1, y: 0 },
+// };
 
-const oppositeDirectionMap: Record<Direction, Direction> = {
-  [Direction.Up]: Direction.Down,
-  [Direction.Down]: Direction.Up,
-  [Direction.Left]: Direction.Right,
-  [Direction.Right]: Direction.Left,
-};
+// const oppositeDirectionsMap: Record<Directions, Directions> = {
+//   [Directions.Up]: Directions.Down,
+//   [Directions.Down]: Directions.Up,
+//   [Directions.Left]: Directions.Right,
+//   [Directions.Right]: Directions.Left,
+// };
 
-function getNewDirection(
-  input: { x: number; y: number },
-  direction: Direction
-) {
-  const { x, y } = input;
-  if (x === 0 && y === 0) {
-    return direction;
-  }
+// function getNewDirections(
+//   input: { x: number; y: number },
+//   Directions: Directions
+// ) {
+//   const { x, y } = input;
+//   if (x === 0 && y === 0) {
+//     return Directions;
+//   }
 
-  const inputDirection =
-    x === -1
-      ? Direction.Left
-      : x === 1
-      ? Direction.Right
-      : y === -1
-      ? Direction.Up
-      : y === 1
-      ? Direction.Down
-      : direction;
+//   const inputDirections =
+//     x === -1
+//       ? Directions.Left
+//       : x === 1
+//       ? Directions.Right
+//       : y === -1
+//       ? Directions.Up
+//       : y === 1
+//       ? Directions.Down
+//       : Directions;
 
-  return inputDirection !== oppositeDirectionMap[direction]
-    ? inputDirection
-    : direction;
-}
+//   return inputDirections !== oppositeDirectionsMap[Directions]
+//     ? inputDirections
+//     : Directions;
+// }
 
 export function applyInput(world: World) {
   // Query entities with input, transform, and movement components
-  const results = world.query(
-    Input,
-    Movement,
-    Velocity,
-    PrevVelocity,
-    Player,
-    Position
-  );
+  const results = world.query(Input, Movement, Velocity);
 
-  results.updateEach(
-    ([input, movement, velocity, prevVelocity, player, position]) => {
-      const { direction, speed } = movement;
-      const newDirection = getNewDirection(input, direction);
+  results.updateEach(([input, movement, velocity]) => {
+    const { speed } = movement;
 
-      // If the new direction is different from the current direction, add a new segment position to the beginning of the segments array
-      if (newDirection !== direction) {
-        player.segments.unshift({ x: position.x, y: position.y });
-        movement.direction = newDirection;
-      }
-      prevVelocity.x = velocity.x;
-      prevVelocity.y = velocity.y;
-      // movement.direction = getNewDirection(input, direction);
+    const isReversingDirection = (axisInput: number, axisVelocity: number) =>
+      axisInput !== 0 && Math.sign(axisInput) !== Math.sign(axisVelocity);
 
-      const { x, y } = velocityMap[direction];
-      velocity.x = x * speed * 10;
-      velocity.y = y * speed * 10;
+    if (
+      isReversingDirection(input.x, velocity.x) ||
+      isReversingDirection(input.y, velocity.y)
+    ) {
+      return;
     }
-  );
+    velocity.x = input.x * speed * 10;
+    velocity.y = input.y * speed * 10;
+  });
 }

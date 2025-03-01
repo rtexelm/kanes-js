@@ -17,6 +17,3 @@ export function drawPlayerView(player: Entity) {
 
   player.add(Ref({ value: playerElement }));
 }
-
-// Start with head and tail positions as separate values.
-// Keep track of all direction shifts as a list
