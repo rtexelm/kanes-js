@@ -7,5 +7,6 @@ export function updateMovement(world: World) {
   world.query(Position, Velocity).updateEach(([position, velocity]) => {
     position.x += velocity.x * delta;
     position.y += velocity.y * delta;
+    // console.log(`Updated position to: ${position.x}, ${position.y}`);
   });
 }

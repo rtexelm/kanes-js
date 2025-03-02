@@ -1,16 +1,7 @@
 import { createActions, Entity } from "koota";
-import {
-  Input,
-  Movement,
-  Player,
-  Position,
-  Velocity,
-  Direction,
-  Food,
-} from "./traits";
+import { Input, Movement, Player, Position, Velocity, Food } from "./traits";
 import { drawPlayerView } from "./renderer/drawPlayerElement";
 import { erasePlayerView } from "./renderer/erasePlayer";
-import { Directions } from "./types";
 
 export const actions = createActions((world) => ({
   createPlayer: (
@@ -18,14 +9,13 @@ export const actions = createActions((world) => ({
     y: number,
     color: string,
     controlsScheme: string,
-    direction: Directions
+    input: { x: number; y: number }
   ) => {
     const player = world.spawn(
       Position({ x, y }),
       Velocity,
-      Direction,
       Player({ color, controlsScheme }),
-      Input,
+      Input(input),
       Movement({ speed: 20 })
     );
     drawPlayerView(player);

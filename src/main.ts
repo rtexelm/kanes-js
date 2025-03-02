@@ -7,19 +7,8 @@ import { world } from "./world";
 import { drawP5Canvas } from "./renderer/drawP5Canvas";
 
 // init
-// gameLoop();
-
 const { createPlayer } = actions(world);
-// drawViewport();
-createPlayer(400, 300, "red", "wasd");
-
-// function setup() {
-//   createCanvas(500, 500);
-//   frameRate(10);
-// }
-
-// function draw() {
-//   gameLoop();
-// }
+createPlayer(400, 300, "red", "wasd", { x: 0, y: 1 });
+createPlayer(300, 300, "blue", "arrows", { x: 0, y: -1 });
 
 let snakeP5 = new p5(drawP5Canvas);
