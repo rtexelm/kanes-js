@@ -6,6 +6,7 @@ import { updateMovement } from "./systems/updateMovement";
 import { updatePlayerView } from "./systems/updatePlayerView";
 import { updateTime } from "./systems/updateTime";
 import { world } from "./world";
+import { updateSegments } from "./systems/updateSegments";
 
 export function gameLoop() {
   /**
@@ -35,6 +36,7 @@ export function gameLoopP5(sketch: p5) {
   // Update phase
   applyInput(world);
   updateMovement(world);
+  updateSegments(world);
 
   // Sync phase
   syncRendererP5(world, sketch);

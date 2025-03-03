@@ -1,5 +1,5 @@
 import { World } from "koota";
-import { Position, Ref, Player } from "../traits";
+import { Position, Ref, Player, Segments } from "../traits";
 import p5 from "p5";
 import { Grid } from "../traits/grid";
 
@@ -11,15 +11,16 @@ export function syncRenderer(world: World) {
 
 export function syncRendererP5(world: World, sketch: p5) {
   const { square } = world.get(Grid)!;
-  world.query(Player, Position).updateEach(([player, position]) => {
-    const { color } = player;
+  world
+    .query(Player, Position, Segments)
+    .updateEach(([player, position, segments]) => {
+      const { color } = player;
+      const snakeCoordinates = [position, ...segments.positions];
 
-    // console.log(
-    //   `Rendering player at: ${position.x}, ${position.y}, with color: ${color}`
-    // );
-    // console.log(`Square size: ${square}`);
-
-    sketch.fill(color);
-    sketch.rect(position.x, position.y, square, square);
-  });
+      sketch.fill(color);
+      for (const segment of snakeCoordinates) {
+        sketch.rect(segment.x, segment.y, square, square);
+        console.log("segment", segment);
+      }
+    });
 }

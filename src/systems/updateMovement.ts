@@ -1,12 +1,13 @@
 import { World } from "koota";
-import { Position, Time, Velocity } from "../traits";
+import { Length, Position, Segments, Time, Velocity } from "../traits";
 
 export function updateMovement(world: World) {
   const { delta } = world.get(Time)!;
 
-  world.query(Position, Velocity).updateEach(([position, velocity]) => {
-    position.x += velocity.x * delta;
-    position.y += velocity.y * delta;
-    // console.log(`Updated position to: ${position.x}, ${position.y}`);
-  });
+  world
+    .query(Position, Velocity, Segments, Length)
+    .updateEach(([position, velocity, segments, length]) => {
+      position.x += velocity.x * delta;
+      position.y += velocity.y * delta;
+    });
 }

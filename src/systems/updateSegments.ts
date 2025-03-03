@@ -1,6 +1,13 @@
 import { World } from "koota";
-import { Position, PrevVelocity, Velocity } from "../traits";
+import { Length, Position, PrevVelocity, Segments, Velocity } from "../traits";
 
 export function updateSegments(world: World) {
-  const results = world.query(Position, Velocity, PrevVelocity);
+  const results = world.query(Position, Segments, Length);
+
+  results.updateEach(([position, segments, length]) => {
+    segments.positions.push({ ...position });
+    if (segments.positions.length > length.value) {
+      segments.positions.shift();
+    }
+  });
 }
