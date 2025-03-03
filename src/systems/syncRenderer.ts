@@ -20,7 +20,6 @@ export function syncRendererP5(world: World, sketch: p5) {
       sketch.fill(color);
       for (const segment of snakeCoordinates) {
         sketch.rect(segment.x, segment.y, square, square);
-        console.log("segment", segment);
       }
     });
 }

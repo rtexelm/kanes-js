@@ -1,5 +1,5 @@
 import { World } from "koota";
-import { Length, Position, PrevVelocity, Segments, Velocity } from "../traits";
+import { Length, Position, Segments } from "../traits";
 
 export function updateSegments(world: World) {
   const results = world.query(Position, Segments, Length);

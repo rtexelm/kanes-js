@@ -1,8 +1,8 @@
 import p5 from "p5";
-import { applyInput } from "./systems/applyInput";
+import { applyInput, applyInputP5 } from "./systems/applyInput";
 import { pollInput } from "./systems/pollInputs";
 import { syncRenderer, syncRendererP5 } from "./systems/syncRenderer";
-import { updateMovement } from "./systems/updateMovement";
+import { updateMovement, updateMovementP5 } from "./systems/updateMovement";
 import { updatePlayerView } from "./systems/updatePlayerView";
 import { updateTime } from "./systems/updateTime";
 import { world } from "./world";
@@ -12,7 +12,6 @@ export function gameLoop() {
   /**
    * Game loop
    * Input -> Update -> Sync
-   * Call this function in the draw() loop of p5 to update the game
    */
   // Input phase
   updateTime(world);
@@ -21,7 +20,7 @@ export function gameLoop() {
   // Update phase
   applyInput(world);
   updateMovement(world);
-  // updatePlayerView(world);
+  updatePlayerView(world);
 
   // Sync phase
   syncRenderer(world);
@@ -30,12 +29,15 @@ export function gameLoop() {
 }
 
 export function gameLoopP5(sketch: p5) {
+  /**
+   * Call this function in the draw() loop of p5 to update the game
+   */
   // Input phase
   updateTime(world);
 
   // Update phase
-  applyInput(world);
-  updateMovement(world);
+  applyInputP5(world);
+  updateMovementP5(world);
   updateSegments(world);
 
   // Sync phase
