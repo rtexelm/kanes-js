@@ -74,7 +74,7 @@ class RenderSystem extends System {
 
 class CollisionSystem extends System {
   update(world) {
-    // Handle snake collisions with itself or food
+    // Handle snake collisions with food
     const snakes = world.entities.filter((e) => e.hasComponent(IsSnake));
     const food = world.entities.find((e) => e.hasComponent(IsFood));
 
@@ -91,34 +91,11 @@ class CollisionSystem extends System {
         world.respawnFood();
       }
 
-      // TODO: Add logic for snake collision with itself or other snakes
-      // Check if snake collides with itself
-      // for (let i = 0; i < snakes.length; i++) {
-      //   if (i !== snakeIndex) {
-      //     const otherSnake = snakes[i];
-      //     const otherSnakePosition = otherSnake.getComponent(Position);
-      //     if (
-      //       position.x === otherSnakePosition.x &&
-      //       position.y === otherSnakePosition.y
-      //     ) {
-      //       // Handle collision logic here
-      //     }
-      //   }
-      // }
+      // TODO: Add logic for snake collision with itself
 
       // TODO: Add logic for snake collision with other snakes
-      // for (let i = 0; i < snakes.length; i++) {
-      //   if (i !== snakeIndex) {
-      //     const otherSnake = snakes[i];
-      //     const otherSnakePosition = otherSnake.getComponent(Position);
-      //     if (
-      //       position.x === otherSnakePosition.x &&
-      //       position.y === otherSnakePosition.y
-      //     ) {
-      //       // Handle collision logic here
-      //     }
-      //   }
-      // }
+
+      // TODO: Add logic for snake collision with walls
     });
   }
 }

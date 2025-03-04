@@ -7,6 +7,7 @@ import { updatePlayerView } from "./systems/updatePlayerView";
 import { updateTime } from "./systems/updateTime";
 import { world } from "./world";
 import { updateSegments } from "./systems/updateSegments";
+import { detectCollisions } from "./systems/detectCollisions";
 
 export function gameLoop() {
   /**
@@ -39,6 +40,7 @@ export function gameLoopP5(sketch: p5) {
   applyInputP5(world);
   updateMovementP5(world);
   updateSegments(world);
+  // detectCollisions(world);
 
   // Sync phase
   syncRendererP5(world, sketch);

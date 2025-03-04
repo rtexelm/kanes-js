@@ -1,7 +1,18 @@
 import { trait } from "koota";
-import { GRID_SIZE } from "../constants";
+import {
+  CANVAS_HEIGHT,
+  CANVAS_WIDTH,
+  GRID_HEIGHT,
+  GRID_WIDTH,
+} from "../constants";
 
 export const Grid = trait({
-  size: GRID_SIZE,
-  square: 0,
+  dimensions: { x: GRID_WIDTH, y: GRID_HEIGHT },
+  cell: {
+    width: CANVAS_WIDTH / GRID_WIDTH,
+    height: CANVAS_HEIGHT / GRID_HEIGHT,
+  },
+  map: Array(GRID_WIDTH)
+    .fill(0)
+    .map(() => Array(GRID_HEIGHT).fill(0)),
 });

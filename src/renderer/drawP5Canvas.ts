@@ -9,8 +9,6 @@ export const drawP5Canvas = (sketch: p5) => {
   sketch.setup = () => {
     sketch.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
     sketch.frameRate(15);
-    const { size } = world.get(Grid)!;
-    world.set(Grid, { square: sketch.width / size });
   };
 
   sketch.draw = () => {

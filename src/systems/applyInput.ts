@@ -1,6 +1,5 @@
 import { World } from "koota";
 import { Input, Movement, Velocity } from "../traits";
-import { Grid } from "../traits/grid";
 
 export function applyInput(world: World) {
   // Query entities with input, transform, and movement components
@@ -8,7 +7,6 @@ export function applyInput(world: World) {
 
   results.updateEach(([input, movement, velocity]) => {
     const { speed } = movement;
-    // const { square } = world.get(Grid)!;
 
     const isReversingDirection = (axisInput: number, axisVelocity: number) => {
       if (axisVelocity === 0) return false;
@@ -32,8 +30,6 @@ export function applyInputP5(world: World) {
   const results = world.query(Input, Velocity);
 
   results.updateEach(([input, velocity]) => {
-    const { square } = world.get(Grid)!;
-
     const isReversingDirection = (axisInput: number, axisVelocity: number) => {
       if (axisVelocity === 0) return false;
       return (
@@ -47,7 +43,7 @@ export function applyInputP5(world: World) {
     ) {
       return;
     }
-    velocity.x = input.x * square;
-    velocity.y = input.y * square;
+    velocity.x = input.x;
+    velocity.y = input.y;
   });
 }
