@@ -21,6 +21,7 @@ export const actions = createActions((world) => ({
     controlsScheme: string,
     input: { x: number; y: number }
   ) => {
+    // Create the inital snake grid cells, controlled by the length constant
     const segments: { x: number; y: number }[] =
       input.x !== 0
         ? Array.from({ length: STARTING_SNAKE_LENGTH }, (_, i) => ({
