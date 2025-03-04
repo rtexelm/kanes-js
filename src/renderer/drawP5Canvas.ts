@@ -1,7 +1,6 @@
 import p5 from "p5";
 import { pollInputsP5 } from "../systems/pollInputsP5";
 import { world } from "../world";
-import { Grid } from "../traits/grid";
 import { gameLoopP5 } from "../game-loop";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants";
 

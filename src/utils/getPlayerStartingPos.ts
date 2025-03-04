@@ -1,6 +1,3 @@
-import { Grid } from "../traits/grid";
-import { world } from "../world";
-
 export function getPlayerStartingPos(
   width: number,
   height: number,

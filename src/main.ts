@@ -7,8 +7,6 @@ import { world } from "./world";
 import { drawP5Canvas } from "./renderer/drawP5Canvas";
 import { getPlayerStartingPos } from "./utils/getPlayerStartingPos";
 import {
-  CANVAS_HEIGHT,
-  CANVAS_WIDTH,
   GRID_HEIGHT,
   GRID_WIDTH,
   PLAYER1_INIT_INPUT,
