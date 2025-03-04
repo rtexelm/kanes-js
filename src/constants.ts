@@ -1,8 +1,8 @@
 export const SNAKE_WIDTH = 20; // Used in the pre-alpha DOM renderer
-export const STARTING_SNAKE_LENGTH = 10;
+export const STARTING_SNAKE_LENGTH = 10000;
 // Grid
-export const GRID_WIDTH = 400;
-export const GRID_HEIGHT = 90;
+export const GRID_WIDTH = 800;
+export const GRID_HEIGHT = 600;
 // Rendering Canvas
 export const CANVAS_WIDTH = 800;
 export const CANVAS_HEIGHT = 600;

@@ -25,12 +25,12 @@ export const actions = createActions((world) => ({
     const segments: { x: number; y: number }[] =
       input.x !== 0
         ? Array.from({ length: STARTING_SNAKE_LENGTH }, (_, i) => ({
-            x: x + (i + 1) * input.x,
+            x: x,
             y,
           }))
         : Array.from({ length: STARTING_SNAKE_LENGTH }, (_, i) => ({
             x,
-            y: y + (i + 1) * input.y,
+            y: y,
           }));
 
     const player = world.spawn(
