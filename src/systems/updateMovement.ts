@@ -1,5 +1,6 @@
 import { World } from "koota";
 import { Position, Time, Velocity, Grid } from "../traits";
+import { Wrap } from "../traits/wrap";
 
 export function updateMovement(world: World) {
   const { delta } = world.get(Time)!;
@@ -12,12 +13,16 @@ export function updateMovement(world: World) {
 
 export function updateMovementP5(world: World) {
   world.query(Position, Velocity).updateEach(([position, velocity]) => {
+    const wrap = world.has(Wrap);
+    const { dimensions } = world.get(Grid)!;
     position.x += velocity.x;
     position.y += velocity.y;
+
+    if (wrap) {
+      if (position.x < 0) position.x = dimensions.x - 1;
+      else if (position.x >= dimensions.x) position.x = 0;
+      if (position.y < 0) position.y = dimensions.y - 1;
+      else if (position.y >= dimensions.y) position.y = 0;
+    }
   });
 }
-
-// if (position.x < 0) position.x = world.gridWidth - 1;
-// else if (position.x >= world.gridWidth) position.x = 0;
-// if (position.y < 0) position.y = world.gridHeight - 1;
-// else if (position.y >= world.gridHeight) position.y = 0;

@@ -11,7 +11,8 @@ import {
 } from "./traits";
 import { drawPlayerView } from "./renderer/drawPlayerElement";
 import { erasePlayerView } from "./renderer/erasePlayer";
-import { STARTING_SNAKE_LENGTH } from "./constants";
+import { STARTING_SNAKE_LENGTH, WRAP_AROUND } from "./constants";
+import { Wrap } from "./traits/wrap";
 
 export const actions = createActions((world) => ({
   createPlayer: (
@@ -57,4 +58,5 @@ export const actions = createActions((world) => ({
     food.destroy();
     // TODO: Add logic to remove food from the renderer
   },
+  setWrap: () => WRAP_AROUND && world.add(Wrap),
 }));
