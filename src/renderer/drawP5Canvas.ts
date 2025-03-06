@@ -8,11 +8,11 @@ export const drawP5Canvas = (sketch: p5) => {
   sketch.setup = () => {
     sketch.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
     sketch.frameRate(15);
+    sketch.noStroke();
   };
 
   sketch.draw = () => {
     sketch.background(0);
-    sketch.noStroke();
     gameLoopP5(sketch);
   };
 

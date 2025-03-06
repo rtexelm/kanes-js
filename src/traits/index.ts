@@ -10,3 +10,4 @@ export { Direction } from "./direction";
 export { Length } from "./length";
 export { Food } from "./food";
 export { Segments } from "./segments";
+export { Grid } from "./grid";

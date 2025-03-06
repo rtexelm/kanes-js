@@ -12,7 +12,7 @@ export const Grid = trait({
     width: CANVAS_WIDTH / GRID_WIDTH,
     height: CANVAS_HEIGHT / GRID_HEIGHT,
   },
-  map: Array(GRID_WIDTH)
+  map: Array(GRID_HEIGHT)
     .fill(0)
-    .map(() => Array(GRID_HEIGHT).fill(0)),
+    .map(() => Array(GRID_WIDTH).fill(0)),
 });

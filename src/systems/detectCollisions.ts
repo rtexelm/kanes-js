@@ -1,6 +1,5 @@
 import { World } from "koota";
-import { Position, Segments } from "../traits";
-import { Grid } from "../traits/grid";
+import { Position, Segments, Grid } from "../traits";
 
 export function detectCollisions(world: World) {
   const results = world.query(Position, Segments);

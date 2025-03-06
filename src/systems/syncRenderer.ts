@@ -1,7 +1,6 @@
 import { World } from "koota";
-import { Position, Ref, Player, Segments } from "../traits";
+import { Position, Ref, Player, Segments, Grid } from "../traits";
 import p5 from "p5";
-import { Grid } from "../traits/grid";
 
 export function syncRenderer(world: World) {
   world.query(Ref, Position).updateEach(([ref, position]) => {
