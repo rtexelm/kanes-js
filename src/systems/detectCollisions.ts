@@ -3,15 +3,23 @@ import { Position, Segments, Grid } from "../traits";
 
 export function detectCollisions(world: World) {
   const results = world.query(Position, Segments);
-  results.updateEach(([position, segments]) => {
-    const { positions } = world.get(Segments)!;
+  results.updateEach(([position, segments], entity) => {
+    // const { positions } = world.get(Segments)!;
     const head = position;
-    const tail = positions.slice();
+    // const tail = positions.slice();
+    const id = entity.id();
+    const { map } = world.get(Grid)!;
+    const gridPosition = map[head.y][head.x];
 
-    for (const segment of tail) {
-      if (head.x === segment.x && head.y === segment.y) {
-        console.log("collision detected");
+    if (gridPosition !== 0 && gridPosition !== id) {
+      if (gridPosition > 0) {
+        console.log("Collided with other snake");
+      } else {
+        console.log("Collided with food");
       }
+      console.log("Other collision detected");
+    } else if (gridPosition === id) {
+      console.log("Collided with self");
     }
   });
 }

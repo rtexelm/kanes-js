@@ -41,6 +41,7 @@ export function gameLoopP5(sketch: p5) {
   applyInputP5(world);
   updateMovementP5(world);
   updateSegments(world);
+  detectCollisions(world);
   updateGrid(world);
 
   // detectCollisions(world);

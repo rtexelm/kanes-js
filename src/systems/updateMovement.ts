@@ -16,3 +16,8 @@ export function updateMovementP5(world: World) {
     position.y += velocity.y;
   });
 }
+
+// if (position.x < 0) position.x = world.gridWidth - 1;
+// else if (position.x >= world.gridWidth) position.x = 0;
+// if (position.y < 0) position.y = world.gridHeight - 1;
+// else if (position.y >= world.gridHeight) position.y = 0;

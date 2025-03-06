@@ -9,3 +9,5 @@ export const CANVAS_HEIGHT = 600;
 // Initial input for velocity calculation
 export const PLAYER1_INIT_INPUT = { x: 0, y: 1 };
 export const PLAYER2_INIT_INPUT = { x: 0, y: -1 };
+// Allow canvas wrapping for positions
+export const WRAP_AROUND = true;

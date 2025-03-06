@@ -15,6 +15,6 @@ export function updateGrid(world: World) {
     }
     map[prevTail.y][prevTail.x] = 0;
     world.set(Grid, { map });
-    console.log(map);
+    // console.log(map);
   });
 }
