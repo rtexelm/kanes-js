@@ -7,7 +7,7 @@ export function updateSegments(world: World) {
   results.updateEach(([position, segments, length]) => {
     segments.positions.push({ ...position });
     if (segments.positions.length > length.value) {
-      // Save the removed tail segment to update the grid value, clearing the grid values the snake doesn't occupy
+      // Save the removed tail segment to update the grid value, clearing the grid coords the snake doesn't occupy
       segments.prevTail = segments.positions.shift() ?? { x: 0, y: 0 };
     }
   });

@@ -9,6 +9,7 @@ import { world } from "./world";
 import { updateSegments } from "./systems/updateSegments";
 import { detectCollisions } from "./systems/detectCollisions";
 import { updateGrid } from "./systems/updateGrid";
+import { spawnFood } from "./systems/spawnFood";
 
 export function gameLoop() {
   /**
@@ -42,9 +43,8 @@ export function gameLoopP5(sketch: p5) {
   updateMovementP5(world);
   updateSegments(world);
   detectCollisions(world);
+  spawnFood(world);
   updateGrid(world);
-
-  // detectCollisions(world);
 
   // Sync phase
   syncRendererP5(world, sketch);

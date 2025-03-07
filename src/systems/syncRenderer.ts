@@ -1,5 +1,5 @@
 import { World } from "koota";
-import { Position, Ref, Player, Segments, Grid } from "../traits";
+import { Position, Ref, Player, Segments, Grid, Food } from "../traits";
 import p5 from "p5";
 
 export function syncRenderer(world: World) {
@@ -28,4 +28,14 @@ export function syncRendererP5(world: World, sketch: p5) {
         );
       }
     });
+  world.query(Food, Position).updateEach(([food, position]) => {
+    const { color } = food;
+    sketch.fill(color);
+    sketch.rect(
+      position.x * cell.width,
+      position.y * cell.height,
+      cell.width,
+      cell.height
+    );
+  });
 }

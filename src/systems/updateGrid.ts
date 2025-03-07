@@ -1,8 +1,10 @@
 import { World } from "koota";
-import { Position, Player, Segments, Grid } from "../traits";
+import { Position, Player, Segments, Grid, Food } from "../traits";
 
 export function updateGrid(world: World) {
   const results = world.query(Position, Player, Segments);
+  const food = world.queryFirst(Food);
+  const { x: foodX, y: foodY } = food?.get(Position) ?? { x: 0, y: 0 };
 
   results.updateEach(([position, player, segments], entity) => {
     const { map } = world.get(Grid)!;
@@ -14,6 +16,9 @@ export function updateGrid(world: World) {
       map[segment.y][segment.x] = id;
     }
     map[prevTail.y][prevTail.x] = 0;
+
+    // Set food position
+    map[foodY][foodX] = -1;
     world.set(Grid, { map });
     // console.log(map);
   });

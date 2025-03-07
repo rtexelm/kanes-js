@@ -18,6 +18,7 @@ export function updateMovementP5(world: World) {
     position.x += velocity.x;
     position.y += velocity.y;
 
+    // If wrapping is enabled, handle wrapping logic
     if (wrap) {
       if (position.x < 0) position.x = dimensions.x - 1;
       else if (position.x >= dimensions.x) position.x = 0;

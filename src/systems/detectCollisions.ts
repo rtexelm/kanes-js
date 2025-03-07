@@ -1,9 +1,10 @@
 import { World } from "koota";
-import { Position, Segments, Grid } from "../traits";
+import { Position, Segments, Grid, Player, Length, Food } from "../traits";
+import { actions } from "../actions";
 
 export function detectCollisions(world: World) {
-  const results = world.query(Position, Segments);
-  results.updateEach(([position, segments], entity) => {
+  const results = world.query(Player, Position, Length);
+  results.updateEach(([player, position, length], entity) => {
     // const { positions } = world.get(Segments)!;
     const head = position;
     // const tail = positions.slice();
@@ -15,11 +16,18 @@ export function detectCollisions(world: World) {
       if (gridPosition > 0) {
         console.log("Collided with other snake");
       } else {
-        console.log("Collided with food");
+        handleFoodCollision(world, length);
       }
-      console.log("Other collision detected");
     } else if (gridPosition === id) {
       console.log("Collided with self");
     }
   });
+}
+
+function handleFoodCollision(world: World, length: { value: number }) {
+  const { destroyFood } = actions(world);
+  const food = world.queryFirst(Food)!;
+  console.log("Collided with food");
+  length.value += 5;
+  destroyFood(food);
 }
