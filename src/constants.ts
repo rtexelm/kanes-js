@@ -11,3 +11,7 @@ export const PLAYER1_INIT_INPUT = { x: 0, y: 1 };
 export const PLAYER2_INIT_INPUT = { x: 0, y: -1 };
 // Allow canvas wrapping for positions
 export const WRAP_AROUND = true;
+// Allow self-collision scoring
+export const SELF_COLLISION = true;
+// Number of lives per game (lose at 0)
+export const LIVES = 10;

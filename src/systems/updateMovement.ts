@@ -1,6 +1,5 @@
 import { World } from "koota";
-import { Position, Time, Velocity, Grid } from "../traits";
-import { Wrap } from "../traits/wrap";
+import { Position, Time, Velocity, Grid, Wrap } from "../traits";
 
 export function updateMovement(world: World) {
   const { delta } = world.get(Time)!;

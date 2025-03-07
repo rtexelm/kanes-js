@@ -8,11 +8,12 @@ import {
   Food,
   Segments,
   Length,
+  Wrap,
+  Collisions,
 } from "./traits";
 import { drawPlayerView } from "./renderer/drawPlayerElement";
 import { erasePlayerView } from "./renderer/erasePlayer";
 import { STARTING_SNAKE_LENGTH, WRAP_AROUND } from "./constants";
-import { Wrap } from "./traits/wrap";
 
 export const actions = createActions((world) => ({
   createPlayer: (
@@ -56,7 +57,12 @@ export const actions = createActions((world) => ({
   },
   destroyFood: (food: Entity) => {
     food.destroy();
-    // TODO: Add logic to remove food from the renderer
+    // TODO: Add logic to remove food from the grid
   },
   setWrap: () => WRAP_AROUND && world.add(Wrap),
+  addCollision: (collision: [number, number]) => {
+    const { data } = world.get(Collisions)!;
+    data.push(collision);
+    world.set(Collisions, { data });
+  },
 }));
