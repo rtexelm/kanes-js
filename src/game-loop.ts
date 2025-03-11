@@ -10,6 +10,7 @@ import { updateSegments } from "./systems/updateSegments";
 import { detectCollisions } from "./systems/detectCollisions";
 import { updateGrid } from "./systems/updateGrid";
 import { spawnFood } from "./systems/spawnFood";
+import { enforceCollisions } from "./systems/enforceCollisions";
 
 export function gameLoop() {
   /**
@@ -43,6 +44,7 @@ export function gameLoopP5(sketch: p5) {
   updateMovementP5(world);
   updateSegments(world);
   detectCollisions(world);
+  enforceCollisions(world);
   spawnFood(world);
   updateGrid(world);
 

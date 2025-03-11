@@ -20,7 +20,8 @@ export function updateGrid(world: World) {
 
     // Set food position
     if (map[foodY][foodX] !== -1) map[foodY][foodX] = -1;
-    // Update total grid
+    // Update world grid
+    // console.log("map", map);
     world.set(Grid, { map });
   });
 }
