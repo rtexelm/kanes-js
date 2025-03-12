@@ -57,7 +57,6 @@ export const actions = createActions((world) => ({
   },
   destroyFood: (food: Entity) => {
     food.destroy();
-    // TODO: Add logic to remove food from the grid
   },
   setWrap: () => WRAP_AROUND && world.add(Wrap),
   addCollision: (collision: [number, number]) => {
