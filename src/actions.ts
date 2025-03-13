@@ -10,6 +10,7 @@ import {
   Length,
   Wrap,
   Collisions,
+  inPlay,
 } from "./traits";
 import { drawPlayerView } from "./renderer/drawPlayerElement";
 import { erasePlayerView } from "./renderer/erasePlayer";
@@ -59,6 +60,7 @@ export const actions = createActions((world) => ({
     food.destroy();
   },
   setWrap: () => WRAP_AROUND && world.add(Wrap),
+  setPlaying: (state) => (state ? world.add(inPlay) : world.remove(inPlay)),
   addCollision: (collision: [number, number]) => {
     const { data } = world.get(Collisions)!;
     data.push(collision);

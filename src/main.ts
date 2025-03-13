@@ -29,10 +29,14 @@ const { x: startX2, y: startY2 } = getPlayerStartingPos(
 );
 
 // init
-const { createPlayer, setWrap } = actions(world);
-setWrap();
-createPlayer(startX, startY, "red", "wasd", PLAYER1_INIT_INPUT);
-createPlayer(startX2, startY2, "#00ff00", "arrows", PLAYER2_INIT_INPUT);
+function init() {
+  const { createPlayer, setWrap, setPlaying } = actions(world);
+  setWrap();
+  createPlayer(startX, startY, "red", "wasd", PLAYER1_INIT_INPUT);
+  createPlayer(startX2, startY2, "#00ff00", "arrows", PLAYER2_INIT_INPUT);
+}
+
+init();
 
 // Defining a varibale to contain the p5 instance will expose the sytem functions to the window allowing for the canvas to be drawn because the p5 library is global, detecting the system functions
 let snakeP5 = new p5(drawP5Canvas);
