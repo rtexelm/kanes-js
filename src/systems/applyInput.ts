@@ -47,3 +47,12 @@ export function applyInputP5(world: World) {
     velocity.y = input.y;
   });
 }
+
+export function applyInputQR(world: World) {
+  const results = world.query(Input, Velocity);
+
+  results.updateEach(([input, velocity]) => {
+    velocity.x = input.x;
+    velocity.y = input.y;
+  });
+}

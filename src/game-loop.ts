@@ -16,6 +16,7 @@ import {
   spawnFood,
   enforceCollisions,
   showSplashScreen,
+  applyInputQR,
 } from "./systems";
 import { world } from "./world";
 import { inPlay } from "./traits";
@@ -51,7 +52,7 @@ export function gameLoopP5(sketch: p5) {
     pollInputQR(world, sketch);
 
     // Update phase
-    applyInputP5(world);
+    applyInputQR(world);
     updateMovementP5(world);
     updateSegments(world);
     detectCollisions(world);

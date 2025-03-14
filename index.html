@@ -9,15 +9,18 @@
     <title>Vite + TS</title>
   </head>
   <body>
-    <div id="game">
-      <script type="module" src="/src/main.ts"></script>
+    <div id="allCanvases">
+      <div id="game">
+        <canvas id="leftCanvas" class="camera" hidden></canvas>
+        <script type="module" src="/src/main.ts"></script>
+        <canvas id="rightCanvas" class="camera" hidden></canvas>
+      </div>
     </div>
     <div id="camera">
       <div id="loadingMessage">
         🎥 Unable to access video stream (please make sure you have a webcam
         enabled)
       </div>
-      <canvas id="canvas" hidden></canvas>
       <div id="output" hidden>
         <div id="outputMessage">No QR code detected.</div>
         <div hidden><b>Data:</b> <span id="outputData"></span></div>

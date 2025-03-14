@@ -1,8 +1,9 @@
 import p5 from "p5";
 import { World } from "koota";
-import { inPlay, Input, Player, Velocity } from "../traits";
+import { inPlay, Input, Player, Time, Velocity } from "../traits";
 import { actions } from "../actions";
-import { qrInputs } from "../qrinputs";
+// @ts-ignore
+import { qrInputs } from "../jsqr";
 
 // Poll the input from the user with dom system
 const keys = {
@@ -178,16 +179,17 @@ export function pollInputsP5(world: World, sketch: p5) {
 
       input.y = vertical / (length || 1);
     }
-    // else {
-    //   input.x = 0;
-
-    //   input.y = 0;
-    // }
   });
 }
 
+const DEBOUNCE = 400;
+
+let lastQRReadTimeL = 0;
+let lastQRReadTimeR = 0;
+
 export function pollInputQR(world: World, sketch: p5) {
   const { setPlaying } = actions(world);
+  const { current } = world.get(Time)!;
 
   const playing = world.has(inPlay);
   world
@@ -203,22 +205,29 @@ export function pollInputQR(world: World, sketch: p5) {
       const currentVelocityX = velocity.x;
       const currentVelocityY = velocity.y;
 
-      if (controlsScheme === "qrL") {
+      if (controlsScheme === "qrL" && current - lastQRReadTimeL >= DEBOUNCE) {
         if (qrInputs.qrL === "LEFT") {
           horizontal = -currentVelocityY;
           vertical = currentVelocityX;
+          lastQRReadTimeL = current;
         } else if (qrInputs.qrL === "RIGHT") {
           horizontal = currentVelocityY;
           vertical = -currentVelocityX;
-          qrInputs.qrL = null;
+          lastQRReadTimeL = current;
         }
-      } else if (controlsScheme === "qrR") {
+        qrInputs.qrL = null;
+      } else if (
+        controlsScheme === "qrR" &&
+        current - lastQRReadTimeR >= DEBOUNCE
+      ) {
         if (qrInputs.qrR === "LEFT") {
           horizontal = -currentVelocityY;
           vertical = currentVelocityX;
+          lastQRReadTimeR = current;
         } else if (qrInputs.qrR === "RIGHT") {
           horizontal = currentVelocityY;
           vertical = -currentVelocityX;
+          lastQRReadTimeR = current;
         }
         qrInputs.qrR = null;
       }

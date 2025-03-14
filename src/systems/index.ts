@@ -1,4 +1,4 @@
-export { applyInput, applyInputP5 } from "./applyInput";
+export { applyInput, applyInputP5, applyInputQR } from "./applyInput";
 export { detectCollisions } from "./detectCollisions";
 export { enforceCollisions } from "./enforceCollisions";
 export { pollInput, pollInputsP5, pollInputQR } from "./pollInputs";
