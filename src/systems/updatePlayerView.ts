@@ -103,5 +103,3 @@ export function updatePlayerView(world: World) {
     // }
   });
 }
-
-//

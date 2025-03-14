@@ -142,6 +142,10 @@ export function pollInputsP5(world: World, sketch: p5) {
     let vertical = 0;
 
     if (!playing && sketch.key === "x") setPlaying(true);
+    if (sketch.key === "f") {
+      let full = sketch.fullscreen();
+      sketch.fullscreen(!full);
+    }
 
     // Check for "wasd" control scheme
     if (
@@ -187,6 +191,9 @@ const DEBOUNCE = 400;
 let lastQRReadTimeL = 0;
 let lastQRReadTimeR = 0;
 
+let lastQRReadL: string | null = null;
+let lastQRReadR: string | null = null;
+
 export function pollInputQR(world: World, sketch: p5) {
   const { setPlaying } = actions(world);
   const { current } = world.get(Time)!;
@@ -205,29 +212,36 @@ export function pollInputQR(world: World, sketch: p5) {
       const currentVelocityX = velocity.x;
       const currentVelocityY = velocity.y;
 
-      if (controlsScheme === "qrL" && current - lastQRReadTimeL >= DEBOUNCE) {
+      if (
+        controlsScheme === "qrL" &&
+        (current - lastQRReadTimeL >= DEBOUNCE || lastQRReadL !== qrInputs.qrL)
+      ) {
         if (qrInputs.qrL === "LEFT") {
           horizontal = -currentVelocityY;
           vertical = currentVelocityX;
           lastQRReadTimeL = current;
+          lastQRReadL = qrInputs.qrL;
         } else if (qrInputs.qrL === "RIGHT") {
           horizontal = currentVelocityY;
           vertical = -currentVelocityX;
           lastQRReadTimeL = current;
+          lastQRReadL = qrInputs.qrL;
         }
         qrInputs.qrL = null;
       } else if (
         controlsScheme === "qrR" &&
-        current - lastQRReadTimeR >= DEBOUNCE
+        (current - lastQRReadTimeR >= DEBOUNCE || lastQRReadR !== qrInputs.qrR)
       ) {
         if (qrInputs.qrR === "LEFT") {
           horizontal = -currentVelocityY;
           vertical = currentVelocityX;
           lastQRReadTimeR = current;
+          lastQRReadR = qrInputs.qrR;
         } else if (qrInputs.qrR === "RIGHT") {
           horizontal = currentVelocityY;
           vertical = -currentVelocityX;
           lastQRReadTimeR = current;
+          lastQRReadR = qrInputs.qrR;
         }
         qrInputs.qrR = null;
       }

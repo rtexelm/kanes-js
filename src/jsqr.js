@@ -63,7 +63,6 @@ function tick() {
     outputContainer.hidden = false;
 
     const halfVideoWidth = video.videoWidth / 2;
-    // const halfWidth = canvasElement.width / 2;
 
     canvasElementLeft.height = video.videoHeight;
     canvasElementRight.height = video.videoHeight;
