@@ -1,6 +1,6 @@
 import { World } from "koota";
 import p5 from "p5";
-// Add snakes following type paths to entice audience with animated title
+// Add snakes following type paths
 export function showSplashScreen(world: World, sketch: p5) {
   sketch.textAlign(sketch.CENTER, sketch.CENTER);
   sketch.fill("#00ff00");

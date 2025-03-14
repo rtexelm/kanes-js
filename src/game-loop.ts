@@ -3,6 +3,7 @@ import {
   applyInput,
   applyInputP5,
   pollInput,
+  pollInputQR,
   syncRenderer,
   syncRendererP5,
   updateMovement,
@@ -47,6 +48,7 @@ export function gameLoopP5(sketch: p5) {
   // Input phase
   if (playing) {
     updateTime(world);
+    pollInputQR(world, sketch);
 
     // Update phase
     applyInputP5(world);

@@ -1,7 +1,7 @@
 export { applyInput, applyInputP5 } from "./applyInput";
 export { detectCollisions } from "./detectCollisions";
 export { enforceCollisions } from "./enforceCollisions";
-export { pollInput, pollInputsP5 } from "./pollInputs";
+export { pollInput, pollInputsP5, pollInputQR } from "./pollInputs";
 export { spawnFood } from "./spawnFood";
 export { syncRenderer, syncRendererP5 } from "./syncRenderer";
 export { updateGrid } from "./updateGrid";

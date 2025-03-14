@@ -11,6 +11,7 @@ import {
   Wrap,
   Collisions,
   inPlay,
+  Lives,
 } from "./traits";
 import { drawPlayerView } from "./renderer/drawPlayerElement";
 import { erasePlayerView } from "./renderer/erasePlayer";
@@ -43,7 +44,8 @@ export const actions = createActions((world) => ({
       Input(input),
       Movement({ speed: 20 }),
       Segments({ positions: segments }),
-      Length
+      Length,
+      Lives
     );
     drawPlayerView(player);
     return player;

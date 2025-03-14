@@ -14,3 +14,4 @@ export { Grid } from "./grid";
 export { Collisions } from "./collisions";
 export { Wrap } from "./wrap";
 export { inPlay } from "./inPlay";
+export { Lives } from "./lives";

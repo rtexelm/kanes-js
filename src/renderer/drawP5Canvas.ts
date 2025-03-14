@@ -5,6 +5,7 @@ import { gameLoopP5 } from "../game-loop";
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants";
 
 export const drawP5Canvas = (sketch: p5) => {
+  // let font;
   sketch.preload = () => {
     sketch.loadFont("assets/fonts/tetricide-brk/tetri.ttf");
     sketch.loadFont("assets/fonts/born2bsporty-fs/Born2bSportyFS.otf");

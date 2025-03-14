@@ -32,8 +32,8 @@ const { x: startX2, y: startY2 } = getPlayerStartingPos(
 function init() {
   const { createPlayer, setWrap, setPlaying } = actions(world);
   setWrap();
-  createPlayer(startX, startY, "red", "wasd", PLAYER1_INIT_INPUT);
-  createPlayer(startX2, startY2, "#00ff00", "arrows", PLAYER2_INIT_INPUT);
+  createPlayer(startX, startY, "red", "qrR", PLAYER1_INIT_INPUT);
+  createPlayer(startX2, startY2, "#00ff00", "qrL", PLAYER2_INIT_INPUT);
 }
 
 init();

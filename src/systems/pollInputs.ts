@@ -1,7 +1,8 @@
 import p5 from "p5";
 import { World } from "koota";
-import { inPlay, Input, Player } from "../traits";
+import { inPlay, Input, Player, Velocity } from "../traits";
 import { actions } from "../actions";
+import { qrInputs } from "../qrinputs";
 
 // Poll the input from the user with dom system
 const keys = {
@@ -183,4 +184,53 @@ export function pollInputsP5(world: World, sketch: p5) {
     //   input.y = 0;
     // }
   });
+}
+
+export function pollInputQR(world: World, sketch: p5) {
+  const { setPlaying } = actions(world);
+
+  const playing = world.has(inPlay);
+  world
+    .query(Input, Player, Velocity)
+    .updateEach(([input, player, velocity]) => {
+      const { controlsScheme } = player;
+
+      let horizontal = 0;
+      let vertical = 0;
+
+      if (!playing && sketch.key === "x") setPlaying(true);
+
+      const currentVelocityX = velocity.x;
+      const currentVelocityY = velocity.y;
+
+      if (controlsScheme === "qrL") {
+        if (qrInputs.qrL === "LEFT") {
+          horizontal = -currentVelocityY;
+          vertical = currentVelocityX;
+        } else if (qrInputs.qrL === "RIGHT") {
+          horizontal = currentVelocityY;
+          vertical = -currentVelocityX;
+          qrInputs.qrL = null;
+        }
+      } else if (controlsScheme === "qrR") {
+        if (qrInputs.qrR === "LEFT") {
+          horizontal = -currentVelocityY;
+          vertical = currentVelocityX;
+        } else if (qrInputs.qrR === "RIGHT") {
+          horizontal = currentVelocityY;
+          vertical = -currentVelocityX;
+        }
+        qrInputs.qrR = null;
+      }
+
+      // Normalize the vector if moving diagonally.
+
+      const length = Math.sqrt(horizontal * horizontal + vertical * vertical);
+
+      if (length > 0) {
+        input.x = horizontal / (length || 1);
+
+        input.y = vertical / (length || 1);
+      }
+    });
 }
