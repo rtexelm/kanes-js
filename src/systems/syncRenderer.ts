@@ -1,6 +1,35 @@
 import { World } from "koota";
-import { Position, Ref, Player, Segments, Grid, Food, Lives } from "../traits";
+import {
+  Position,
+  Ref,
+  Player,
+  Segments,
+  Grid,
+  Food,
+  Lives,
+  RoundEnd,
+} from "../traits";
 import p5 from "p5";
+
+function drawText(
+  x: number,
+  y: number,
+  text_array: string | any[],
+  sketch: p5
+) {
+  const aligns = [sketch.RIGHT, sketch.CENTER, sketch.LEFT];
+  const yStep = 85;
+  let posY = y;
+  for (let i = 0; i < text_array.length; ++i) {
+    let part = text_array[i];
+    let t = part[0];
+    let c = part[1];
+    sketch.textAlign(aligns[i]);
+    sketch.fill(c);
+    sketch.text(t, x, posY);
+    posY += yStep;
+  }
+}
 
 export function syncRenderer(world: World) {
   world.query(Ref, Position).updateEach(([ref, position]) => {
@@ -41,6 +70,7 @@ export function syncRendererP5(world: World, sketch: p5) {
       sketch.text(`${lives.value}`, drawLocale.x, drawLocale.y);
       sketch.pop();
     });
+  // Draw food
   world.query(Food, Position).updateEach(([food, position]) => {
     const { color } = food;
     sketch.fill(color);
@@ -51,4 +81,42 @@ export function syncRendererP5(world: World, sketch: p5) {
       cell.height
     );
   });
+  // Draw round end text
+  if (world.has(RoundEnd)) {
+    // Get variables
+    const { messageColors } = world.get(RoundEnd)!;
+    const { winnerColor, loserColor } = messageColors;
+    const colorMap: { [key: string]: string } = {
+      Red: "red",
+      Green: "#00ff00",
+    };
+    // Draw text
+    sketch.push();
+    sketch.textFont("tetri");
+    sketch.textSize(80);
+    if (loserColor && !winnerColor) {
+      // sketch.textAlign(sketch.RIGHT, sketch.CENTER);
+      let textArray = [
+        [loserColor.toUpperCase(), colorMap[loserColor]],
+        ["KILLED", "gold"],
+        ["ITSELF!", "gold"],
+      ];
+      drawText(sketch.width / 2, sketch.height / 3, textArray, sketch);
+    } else if (!winnerColor && !loserColor) {
+      let textArray = [
+        ["ITS", colorMap["Green"]],
+        ["A", "gold"],
+        ["TIE!", colorMap["Red"]],
+      ];
+      drawText(sketch.width / 2, sketch.height / 3, textArray, sketch);
+    } else {
+      let textArray = [
+        [loserColor.toUpperCase(), colorMap[loserColor]],
+        ["HIT", "gold"],
+        [`${winnerColor.toUpperCase()}!`, colorMap[winnerColor]],
+      ];
+      drawText(sketch.width / 2, sketch.height / 3, textArray, sketch);
+    }
+    sketch.pop();
+  }
 }

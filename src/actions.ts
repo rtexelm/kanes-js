@@ -12,6 +12,7 @@ import {
   Collisions,
   inPlay,
   Lives,
+  RoundEnd,
 } from "./traits";
 import { drawPlayerView } from "./renderer/drawPlayerElement";
 import { erasePlayerView } from "./renderer/erasePlayer";
@@ -22,6 +23,7 @@ export const actions = createActions((world) => ({
     x: number,
     y: number,
     color: string,
+    name: string,
     controlsScheme: string,
     input: { x: number; y: number }
   ) => {
@@ -40,7 +42,7 @@ export const actions = createActions((world) => ({
     const player = world.spawn(
       Position({ x, y }),
       Velocity,
-      Player({ color, controlsScheme }),
+      Player({ color, name, controlsScheme }),
       Input(input),
       Movement({ speed: 20 }),
       Segments({ positions: segments }),
@@ -63,6 +65,19 @@ export const actions = createActions((world) => ({
   },
   setWrap: () => WRAP_AROUND && world.add(Wrap),
   setPlaying: (state) => (state ? world.add(inPlay) : world.remove(inPlay)),
+  setRoundEnd: (state) =>
+    state ? world.add(RoundEnd) : world.remove(RoundEnd),
+  // setWinningText: (text: string) => {
+  //   world.set(RoundEnd, { message: text });
+  // },
+  setRoundEndColors: (winC: string, loseC: string) => {
+    world.set(RoundEnd, {
+      messageColors: {
+        winnerColor: winC,
+        loserColor: loseC,
+      },
+    });
+  },
   addCollision: (collision: [number, number]) => {
     const { data } = world.get(Collisions)!;
     data.push(collision);

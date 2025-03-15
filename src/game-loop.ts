@@ -17,6 +17,8 @@ import {
   enforceCollisions,
   showSplashScreen,
   applyInputQR,
+  updateRoundEnd,
+  detectRoundEnd,
 } from "./systems";
 import { world } from "./world";
 import { inPlay } from "./traits";
@@ -46,8 +48,8 @@ export function gameLoopP5(sketch: p5) {
    * Call this function in the draw() loop of p5 to update the game
    */
   const playing = world.has(inPlay);
-  // Input phase
   if (playing) {
+    // Input phase
     updateTime(world);
     pollInputQR(world, sketch);
 
@@ -56,7 +58,9 @@ export function gameLoopP5(sketch: p5) {
     updateMovementP5(world);
     updateSegments(world);
     detectCollisions(world);
-    enforceCollisions(world);
+    detectRoundEnd(world);
+    updateRoundEnd(world);
+    // enforceCollisions(world);
     spawnFood(world);
     updateGrid(world);
 

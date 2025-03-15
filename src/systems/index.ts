@@ -10,3 +10,5 @@ export { updatePlayerView } from "./updatePlayerView";
 export { updateSegments } from "./updateSegments";
 export { updateTime } from "./updateTime";
 export { showSplashScreen } from "./showSplashScreen";
+export { detectRoundEnd } from "./detectRoundEnd";
+export { updateRoundEnd } from "./updateRoundEnd";

@@ -15,3 +15,5 @@ export { Collisions } from "./collisions";
 export { Wrap } from "./wrap";
 export { inPlay } from "./inPlay";
 export { Lives } from "./lives";
+export { RoundEnd } from "./roundEnd";
+export { Dead } from "./dead";

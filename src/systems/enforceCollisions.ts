@@ -1,6 +1,6 @@
 import { World } from "koota";
 import { actions } from "../actions";
-import { Collisions, Length, Food, Player, Lives } from "../traits";
+import { Collisions, Length, Food, Player, Lives, Dead } from "../traits";
 
 function handleFoodCollision(world: World, length: { value: number }) {
   const { destroyFood } = actions(world);
@@ -9,19 +9,16 @@ function handleFoodCollision(world: World, length: { value: number }) {
   destroyFood(food);
 }
 
-function handleTieCollision(world: World) {
-  // TODO
-  // Reduce both players lives by 1
-  const players = world.query(Player, Lives);
-  players.updateEach(([player, lives]) => {
-    lives.value -= 1;
-  });
-}
+function handleTieCollision(world: World) {}
 
 function handlePlayerCollision(world: World, id: number) {
   const players = world.query(Player, Lives);
   players.updateEach(([player, lives], entity) => {
-    if (entity.id() === id) lives.value -= 1;
+    if (entity.id() === id) {
+      lives.value -= 1;
+    } else {
+      entity.add(Dead);
+    }
   });
 }
 
@@ -33,7 +30,11 @@ export function enforceCollisions(world: World) {
   if (data.length) {
     if (data.length > 1 && data[0][1] === data[1][0]) {
       console.log("Tie");
-      handleTieCollision(world);
+      const players = world.query(Player, Lives);
+      players.updateEach(([player, lives], entity) => {
+        lives.value -= 1;
+        entity.add(Dead);
+      });
     } else {
       data.forEach(([head, collided]) => {
         if (collided > 0 && collided !== head) {

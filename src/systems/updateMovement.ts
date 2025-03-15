@@ -1,5 +1,5 @@
 import { World } from "koota";
-import { Position, Time, Velocity, Grid, Wrap } from "../traits";
+import { Position, Time, Velocity, Grid, Wrap, RoundEnd } from "../traits";
 
 export function updateMovement(world: World) {
   const { delta } = world.get(Time)!;
@@ -11,6 +11,7 @@ export function updateMovement(world: World) {
 }
 
 export function updateMovementP5(world: World) {
+  const roundEnd = world.has(RoundEnd);
   world.query(Position, Velocity).updateEach(([position, velocity]) => {
     const wrap = world.has(Wrap);
     const { dimensions } = world.get(Grid)!;
