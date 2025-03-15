@@ -19,6 +19,7 @@ import {
   applyInputQR,
   updateRoundEnd,
   detectRoundEnd,
+  handleReset,
 } from "./systems";
 import { world } from "./world";
 import { inPlay } from "./traits";
@@ -60,9 +61,9 @@ export function gameLoopP5(sketch: p5) {
     detectCollisions(world);
     detectRoundEnd(world);
     updateRoundEnd(world);
-    // enforceCollisions(world);
     spawnFood(world);
     updateGrid(world);
+    handleReset(world);
 
     // Sync phase
     syncRendererP5(world, sketch);

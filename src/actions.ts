@@ -13,10 +13,18 @@ import {
   inPlay,
   Lives,
   RoundEnd,
+  Reset,
+  StartPosition,
+  Grid,
 } from "./traits";
 import { drawPlayerView } from "./renderer/drawPlayerElement";
 import { erasePlayerView } from "./renderer/erasePlayer";
-import { STARTING_SNAKE_LENGTH, WRAP_AROUND } from "./constants";
+import {
+  GRID_HEIGHT,
+  GRID_WIDTH,
+  STARTING_SNAKE_LENGTH,
+  WRAP_AROUND,
+} from "./constants";
 
 export const actions = createActions((world) => ({
   createPlayer: (
@@ -47,7 +55,8 @@ export const actions = createActions((world) => ({
       Movement({ speed: 20 }),
       Segments({ positions: segments }),
       Length,
-      Lives
+      Lives,
+      StartPosition({ x, y })
     );
     drawPlayerView(player);
     return player;
@@ -67,9 +76,6 @@ export const actions = createActions((world) => ({
   setPlaying: (state) => (state ? world.add(inPlay) : world.remove(inPlay)),
   setRoundEnd: (state) =>
     state ? world.add(RoundEnd) : world.remove(RoundEnd),
-  // setWinningText: (text: string) => {
-  //   world.set(RoundEnd, { message: text });
-  // },
   setRoundEndColors: (winC: string, loseC: string) => {
     world.set(RoundEnd, {
       messageColors: {
@@ -78,9 +84,17 @@ export const actions = createActions((world) => ({
       },
     });
   },
-  addCollision: (collision: [number, number]) => {
-    const { data } = world.get(Collisions)!;
-    data.push(collision);
-    world.set(Collisions, { data });
+  setRoundReset: (state) => (state ? world.add(Reset) : world.remove(Reset)),
+  resetGrid: () => {
+    world.set(Grid, {
+      map: Array(GRID_HEIGHT)
+        .fill(0)
+        .map(() => Array(GRID_WIDTH).fill(0)),
+    });
   },
+  // addCollision: (collision: [number, number]) => {
+  //   const { data } = world.get(Collisions)!;
+  //   data.push(collision);
+  //   world.set(Collisions, { data });
+  // },
 }));

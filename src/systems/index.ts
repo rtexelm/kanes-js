@@ -12,3 +12,4 @@ export { updateTime } from "./updateTime";
 export { showSplashScreen } from "./showSplashScreen";
 export { detectRoundEnd } from "./detectRoundEnd";
 export { updateRoundEnd } from "./updateRoundEnd";
+export { handleReset } from "./handleReset";

@@ -1,7 +1,7 @@
 import { trait } from "koota";
 
 export const RoundEnd = trait({
-  timer: 20,
+  timer: 30,
   messageColors: {
     winnerColor: "",
     loserColor: "",

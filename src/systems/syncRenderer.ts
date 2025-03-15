@@ -84,7 +84,7 @@ export function syncRendererP5(world: World, sketch: p5) {
   // Draw round end text
   if (world.has(RoundEnd)) {
     // Get variables
-    const { messageColors } = world.get(RoundEnd)!;
+    const { timer, messageColors } = world.get(RoundEnd)!;
     const { winnerColor, loserColor } = messageColors;
     const colorMap: { [key: string]: string } = {
       Red: "red",
@@ -117,6 +117,10 @@ export function syncRendererP5(world: World, sketch: p5) {
       ];
       drawText(sketch.width / 2, sketch.height / 3, textArray, sketch);
     }
+    sketch.textFont("Born2bSportyFS");
+    sketch.textSize(70);
+    let countDown = timer >= 20 ? 3 : timer >= 10 ? 2 : 1;
+    sketch.text(`${countDown}`, sketch.width / 2, sketch.height / 2 + 100);
     sketch.pop();
   }
 }

@@ -16,11 +16,12 @@ export function detectCollisions(world: World) {
   const results = world.query(Player, Position, Lives, Length);
   results.updateEach(([player, position, lives, length], entity) => {
     const { x: headX, y: headY } = position;
-    const id = entity.id();
+    // const id = entity.id();
     const { map } = world.get(Grid)!;
     const gridPosition = map[headY][headX];
 
     if (gridPosition > 0) {
+      console.log([gridPosition, headX, headY]);
       // Collided with player
       lives.value -= 1;
       entity.add(Dead);

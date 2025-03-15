@@ -4,12 +4,13 @@ import { actions } from "../actions";
 
 export function updateRoundEnd(world: World) {
   if (!world.has(RoundEnd)) return;
-  const { setRoundEnd } = actions(world);
+  const { setRoundEnd, setRoundReset } = actions(world);
 
   let { timer } = world.get(RoundEnd)!;
-  console.log(timer);
+  // console.log(timer);
   if (timer <= 0) {
     setRoundEnd(false);
+    setRoundReset(true);
     return;
   }
   timer -= 1;

@@ -1,7 +1,8 @@
 import { World } from "koota";
-import { Length, Position, Segments } from "../traits";
+import { Length, Position, RoundEnd, Segments } from "../traits";
 
 export function updateSegments(world: World) {
+  if (world.has(RoundEnd)) return;
   const results = world.query(Position, Segments, Length);
 
   results.updateEach(([position, segments, length]) => {

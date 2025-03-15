@@ -17,3 +17,5 @@ export { inPlay } from "./inPlay";
 export { Lives } from "./lives";
 export { RoundEnd } from "./roundEnd";
 export { Dead } from "./dead";
+export { Reset } from "./reset";
+export { StartPosition } from "./startPosition";
