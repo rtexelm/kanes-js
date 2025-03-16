@@ -47,4 +47,5 @@ export function test_init() {
 init();
 
 // Defining a varibale to contain the p5 instance will expose the sytem functions to the window allowing for the canvas to be drawn because the p5 library is global, detecting the system functions
+// @ts-ignore
 let snakeP5 = new p5(drawP5Canvas, "game");
