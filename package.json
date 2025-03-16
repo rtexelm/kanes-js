@@ -9,10 +9,13 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/p5": "^1.7.6",
     "typescript": "~5.7.2",
     "vite": "^6.1.0"
   },
   "dependencies": {
-    "koota": "^0.1.12"
+    "jsqr": "^1.4.0",
+    "koota": "^0.1.12",
+    "p5": "^1.11.3"
   }
 }

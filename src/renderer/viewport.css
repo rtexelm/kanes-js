@@ -1,9 +1,8 @@
 .viewport {
   width: 800px;
   height: 600px;
-  /* border: 1px solid black; */
   background: black;
   position: relative;
   overflow: hidden;
-  border-radius: 20px;
+  /* border-radius: 20px; */
 }

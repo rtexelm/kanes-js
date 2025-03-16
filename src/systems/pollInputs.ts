@@ -1,6 +1,11 @@
+import p5 from "p5";
 import { World } from "koota";
-import { Input, Player } from "../traits";
+import { inPlay, Input, Player, Time, Velocity } from "../traits";
+import { actions } from "../actions";
+// @ts-ignore
+import { qrInputs } from "../jsqr";
 
+// Poll the input from the user with dom system
 const keys = {
   arrowUp: false,
   arrowDown: false,
@@ -85,16 +90,30 @@ window.addEventListener("keyup", (e) => {
 });
 
 export function pollInput(world: World) {
-  world.query(Input, Player).updateEach(([input]) => {
+  world.query(Input, Player).updateEach(([input, player]) => {
     // Get horizontal and vertical input.
 
-    const horizontal =
-      (keys.arrowRight || keys.d ? 1 : 0) - (keys.arrowLeft || keys.a ? 1 : 0);
+    const { controlsScheme } = player;
 
-    const vertical =
-      // y axis uses an inverted cartesian plain for DOM coordinate system
+    let horizontal = 0;
+    let vertical = 0;
+
+    switch (controlsScheme) {
+      // y axis uses an inverted plain for DOM coordinate system
       // thus we need to invert the vertical axis input
-      (keys.arrowDown || keys.s ? 1 : 0) - (keys.arrowUp || keys.w ? 1 : 0);
+      case "wasd":
+        horizontal = (keys.d ? 1 : 0) - (keys.a ? 1 : 0);
+        vertical = (keys.s ? 1 : 0) - (keys.w ? 1 : 0);
+        break;
+
+      case "arrows":
+        horizontal = (keys.arrowRight ? 1 : 0) - (keys.arrowLeft ? 1 : 0);
+        vertical = (keys.arrowDown ? 1 : 0) - (keys.arrowUp ? 1 : 0);
+        break;
+
+      default:
+        break;
+    }
 
     // Normalize the vector if moving diagonally.
 
@@ -110,4 +129,150 @@ export function pollInput(world: World) {
       input.y = 0;
     }
   });
+}
+
+export function pollInputsP5(world: World, sketch: p5) {
+  const { setPlaying } = actions(world);
+
+  const playing = world.has(inPlay);
+  world.query(Input, Player).updateEach(([input, player]) => {
+    const { controlsScheme } = player;
+
+    let horizontal = 0;
+    let vertical = 0;
+
+    if (!playing && sketch.key === "x") setPlaying(true);
+    if (sketch.key === "f") {
+      let full = sketch.fullscreen();
+      sketch.fullscreen(!full);
+    }
+
+    // Check for "wasd" control scheme
+    if (
+      controlsScheme === "wasd" &&
+      ["w", "a", "s", "d"].includes(sketch.key)
+    ) {
+      horizontal = (sketch.key === "d" ? 1 : 0) - (sketch.key === "a" ? 1 : 0);
+      vertical = (sketch.key === "s" ? 1 : 0) - (sketch.key === "w" ? 1 : 0);
+    }
+
+    // Check for "arrows" control scheme
+    if (
+      controlsScheme === "arrows" &&
+      [
+        sketch.UP_ARROW,
+        sketch.DOWN_ARROW,
+        sketch.LEFT_ARROW,
+        sketch.RIGHT_ARROW,
+      ].includes(sketch.keyCode)
+    ) {
+      horizontal =
+        (sketch.keyCode === sketch.RIGHT_ARROW ? 1 : 0) -
+        (sketch.keyCode === sketch.LEFT_ARROW ? 1 : 0);
+      vertical =
+        (sketch.keyCode === sketch.DOWN_ARROW ? 1 : 0) -
+        (sketch.keyCode === sketch.UP_ARROW ? 1 : 0);
+    }
+
+    // Normalize the vector if moving diagonally.
+
+    const length = Math.sqrt(horizontal * horizontal + vertical * vertical);
+
+    if (length > 0) {
+      input.x = horizontal / (length || 1);
+
+      input.y = vertical / (length || 1);
+    }
+  });
+}
+
+const DEBOUNCE = 500;
+
+let lastQRReadTimeL = 0;
+let lastQRReadTimeR = 0;
+
+let lastQRReadL: string | null = null;
+let lastQRReadR: string | null = null;
+
+export function pollInputQR(world: World, sketch: p5) {
+  const { setPlaying } = actions(world);
+  const { current } = world.get(Time)!;
+
+  const playing = world.has(inPlay);
+  world
+    .query(Input, Player, Velocity)
+    .updateEach(([input, player, velocity]) => {
+      const { controlsScheme } = player;
+
+      let horizontal = 0;
+      let vertical = 0;
+
+      if (
+        (!playing && sketch.key === "x") ||
+        (!playing && qrInputs.qrL === "START") ||
+        (!playing && qrInputs.qrR === "START")
+      )
+        setPlaying(true);
+
+      const currentVelocityX = velocity.x;
+      const currentVelocityY = velocity.y;
+
+      if (
+        current - lastQRReadTimeL < DEBOUNCE &&
+        lastQRReadL === qrInputs.qrL
+      ) {
+        qrInputs.qrL = null;
+      }
+      if (
+        current - lastQRReadTimeR < DEBOUNCE &&
+        lastQRReadR === qrInputs.qrR
+      ) {
+        qrInputs.qrR = null;
+      }
+
+      if (
+        controlsScheme === "qrL" &&
+        qrInputs.qrL !== null &&
+        (current - lastQRReadTimeL >= DEBOUNCE || lastQRReadL !== qrInputs.qrL)
+      ) {
+        if (qrInputs.qrL === "LEFT") {
+          horizontal = currentVelocityY;
+          vertical = -currentVelocityX;
+        } else if (qrInputs.qrL === "RIGHT") {
+          horizontal = -currentVelocityY;
+          vertical = currentVelocityX;
+        }
+        lastQRReadTimeL = current;
+        lastQRReadL = qrInputs.qrL;
+      }
+      if (
+        controlsScheme === "qrR" &&
+        qrInputs.qrR !== null &&
+        (current - lastQRReadTimeR >= DEBOUNCE || lastQRReadR !== qrInputs.qrR)
+      ) {
+        if (qrInputs.qrR === "LEFT") {
+          horizontal = currentVelocityY;
+          vertical = -currentVelocityX;
+        } else if (qrInputs.qrR === "RIGHT") {
+          horizontal = -currentVelocityY;
+          vertical = currentVelocityX;
+        }
+        lastQRReadTimeR = current;
+        lastQRReadR = qrInputs.qrR;
+      }
+      // qrInputs.qrL = null;
+      // qrInputs.qrR = null;
+
+      // Normalize the vector if moving diagonally.
+
+      const length = Math.sqrt(horizontal * horizontal + vertical * vertical);
+
+      if (length > 0) {
+        input.x = horizontal / (length || 1);
+
+        input.y = vertical / (length || 1);
+      }
+    });
+  // inputProcessedL = false;
+  // inputProcessedR = false;
 }
