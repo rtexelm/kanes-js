@@ -1,5 +1,5 @@
 import { World } from "koota";
-import { RoundEnd } from "../traits";
+import { RoundEnd, GameOver } from "../traits";
 import { actions } from "../actions";
 
 export function updateRoundEnd(world: World) {
@@ -7,7 +7,6 @@ export function updateRoundEnd(world: World) {
   const { setRoundEnd, setRoundReset } = actions(world);
 
   let { timer } = world.get(RoundEnd)!;
-  // console.log(timer);
   if (timer <= 0) {
     setRoundEnd(false);
     setRoundReset(true);

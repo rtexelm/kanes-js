@@ -19,3 +19,4 @@ export { RoundEnd } from "./roundEnd";
 export { Dead } from "./dead";
 export { Reset } from "./reset";
 export { StartPosition } from "./startPosition";
+export { GameOver } from "./gameover";

@@ -8,8 +8,14 @@ import {
   Food,
   Lives,
   RoundEnd,
+  GameOver,
 } from "../traits";
 import p5 from "p5";
+
+const colorMap: { [key: string]: string } = {
+  Red: "red",
+  Green: "#00ff00",
+};
 
 function drawText(
   x: number,
@@ -81,21 +87,19 @@ export function syncRendererP5(world: World, sketch: p5) {
       cell.height
     );
   });
+
   // Draw round end text
-  if (world.has(RoundEnd)) {
+  if (world.has(RoundEnd) && !world.has(GameOver)) {
     // Get variables
     const { timer, messageColors } = world.get(RoundEnd)!;
     const { winnerColor, loserColor } = messageColors;
-    const colorMap: { [key: string]: string } = {
-      Red: "red",
-      Green: "#00ff00",
-    };
+
     // Draw text
     sketch.push();
     sketch.textFont("tetri");
     sketch.textSize(80);
+
     if (loserColor && !winnerColor) {
-      // sketch.textAlign(sketch.RIGHT, sketch.CENTER);
       let textArray = [
         [loserColor.toUpperCase(), colorMap[loserColor]],
         ["KILLED", "gold"],
@@ -117,10 +121,34 @@ export function syncRendererP5(world: World, sketch: p5) {
       ];
       drawText(sketch.width / 2, sketch.height / 3, textArray, sketch);
     }
+    // Draw count down
     sketch.textFont("Born2bSportyFS");
     sketch.textSize(70);
     let countDown = timer >= 20 ? 3 : timer >= 10 ? 2 : 1;
     sketch.text(`${countDown}`, sketch.width / 2, sketch.height / 2 + 100);
+    sketch.pop();
+  } else if (world.has(GameOver)) {
+    // Get variables
+    const { winner } = world.get(GameOver)!;
+    // Draw text
+    sketch.push();
+    sketch.textFont("tetri");
+    sketch.textSize(80);
+    if (winner) {
+      let textArray = [
+        [winner.toUpperCase(), colorMap[winner]],
+        ["IS", "gold"],
+        ["VICTORIOUS!", "gold"],
+      ];
+      drawText(sketch.width / 2, sketch.height / 3, textArray, sketch);
+    } else {
+      let textArray = [
+        ["NO  ", colorMap["Green"]],
+        ["VICTOR", "gold"],
+        ["STANDS!", colorMap["Red"]],
+      ];
+      drawText(sketch.width / 2, sketch.height / 3, textArray, sketch);
+    }
     sketch.pop();
   }
 }

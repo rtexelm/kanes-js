@@ -1,14 +1,26 @@
 import { World } from "koota";
-import { Player, Dead, Velocity, Segments } from "../traits";
+import { Player, Dead, Velocity, Lives, RoundEnd, GameOver } from "../traits";
 import { actions } from "../actions";
 
 export function detectRoundEnd(world: World) {
-  const { setRoundEnd, setRoundEndColors } = actions(world);
+  if (world.has(RoundEnd || GameOver)) return;
+  const {
+    setRoundEnd,
+    setRoundEndColors,
+    setGameOver,
+    setGameOverTimer,
+    setWinner,
+  } = actions(world);
   const collisions: [string, string][] = [];
-  const deaths = world.query(Player, Dead);
+  const deaths = world.query(Player, Dead, Lives);
   const players = world.query(Player);
 
-  deaths.updateEach(([player, dead], entity) => {
+  let losses = 0;
+
+  deaths.updateEach(([player, dead, lives], entity) => {
+    if (lives.value <= 0) {
+      losses += 1;
+    }
     const { name } = player;
     let collided = "";
     players.updateEach(([player], entity) => {
@@ -21,11 +33,29 @@ export function detectRoundEnd(world: World) {
   });
 
   if (collisions.length) {
-    // Stop Movement
     setRoundEnd(true);
+    // Stop Movement
     players.updateEach(([player], entity) => {
       entity.remove(Velocity);
     });
+    // Set gameover winner and return
+    if (losses) {
+      setGameOver(true);
+      setGameOverTimer();
+      let winner = "";
+
+      world.query(Player, Lives).updateEach(([player, lives]) => {
+        if (lives.value) {
+          winner = player.name;
+        }
+      });
+
+      if (winner) {
+        setWinner(winner);
+      }
+      return;
+    }
+    // Set round winners
     if (collisions.length > 1) {
       console.log("Tie");
     } else {
@@ -33,9 +63,9 @@ export function detectRoundEnd(world: World) {
       const collided = collisions[0][1];
       console.log(`${name} died!`);
       if (name === collided) {
-        setRoundEndColors("", `${name}`);
+        setRoundEndColors("", `${collided}`);
       } else {
-        setRoundEndColors(`${name}`, `${collided}`);
+        setRoundEndColors(`${collided}`, `${name}`);
       }
     }
   }

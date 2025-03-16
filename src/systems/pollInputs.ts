@@ -186,7 +186,7 @@ export function pollInputsP5(world: World, sketch: p5) {
   });
 }
 
-const DEBOUNCE = 400;
+const DEBOUNCE = 800;
 
 let lastQRReadTimeL = 0;
 let lastQRReadTimeR = 0;
@@ -207,7 +207,12 @@ export function pollInputQR(world: World, sketch: p5) {
       let horizontal = 0;
       let vertical = 0;
 
-      if (!playing && sketch.key === "x") setPlaying(true);
+      if (
+        (!playing && sketch.key === "x") ||
+        (!playing && qrInputs.qrL === "START") ||
+        (!playing && qrInputs.qrR === "START")
+      )
+        setPlaying(true);
 
       const currentVelocityX = velocity.x;
       const currentVelocityY = velocity.y;
@@ -217,13 +222,13 @@ export function pollInputQR(world: World, sketch: p5) {
         (current - lastQRReadTimeL >= DEBOUNCE || lastQRReadL !== qrInputs.qrL)
       ) {
         if (qrInputs.qrL === "LEFT") {
-          horizontal = -currentVelocityY;
-          vertical = currentVelocityX;
+          horizontal = currentVelocityY;
+          vertical = -currentVelocityX;
           lastQRReadTimeL = current;
           lastQRReadL = qrInputs.qrL;
         } else if (qrInputs.qrL === "RIGHT") {
-          horizontal = currentVelocityY;
-          vertical = -currentVelocityX;
+          horizontal = -currentVelocityY;
+          vertical = currentVelocityX;
           lastQRReadTimeL = current;
           lastQRReadL = qrInputs.qrL;
         }
@@ -233,13 +238,13 @@ export function pollInputQR(world: World, sketch: p5) {
         (current - lastQRReadTimeR >= DEBOUNCE || lastQRReadR !== qrInputs.qrR)
       ) {
         if (qrInputs.qrR === "LEFT") {
-          horizontal = -currentVelocityY;
-          vertical = currentVelocityX;
+          horizontal = currentVelocityY;
+          vertical = -currentVelocityX;
           lastQRReadTimeR = current;
           lastQRReadR = qrInputs.qrR;
         } else if (qrInputs.qrR === "RIGHT") {
-          horizontal = currentVelocityY;
-          vertical = -currentVelocityX;
+          horizontal = -currentVelocityY;
+          vertical = currentVelocityX;
           lastQRReadTimeR = current;
           lastQRReadR = qrInputs.qrR;
         }

@@ -25,6 +25,7 @@ import {
   STARTING_SNAKE_LENGTH,
   WRAP_AROUND,
 } from "./constants";
+import { GameOver } from "./traits/gameover";
 
 export const actions = createActions((world) => ({
   createPlayer: (
@@ -85,6 +86,18 @@ export const actions = createActions((world) => ({
     });
   },
   setRoundReset: (state) => (state ? world.add(Reset) : world.remove(Reset)),
+  setGameOver: (state) =>
+    state ? world.add(GameOver) : world.remove(GameOver),
+  setWinner: (name: string) => {
+    world.set(GameOver, {
+      winner: name,
+    });
+  },
+  setGameOverTimer: () => {
+    world.set(RoundEnd, {
+      timer: 50,
+    });
+  },
   resetGrid: () => {
     world.set(Grid, {
       map: Array(GRID_HEIGHT)

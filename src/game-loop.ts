@@ -63,12 +63,15 @@ export function gameLoopP5(sketch: p5) {
     updateRoundEnd(world);
     spawnFood(world);
     updateGrid(world);
-    handleReset(world);
 
     // Sync phase
     syncRendererP5(world, sketch);
+
+    // Reset phase
+    handleReset(world);
   } else {
     // TODO: Add game over screen
     showSplashScreen(world, sketch);
+    pollInputQR(world, sketch);
   }
 }

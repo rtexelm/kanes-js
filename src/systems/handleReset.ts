@@ -1,8 +1,11 @@
-import { World } from "koota";
+import { Or, World } from "koota";
 import {
   Food,
+  GameOver,
+  Grid,
   Input,
   Length,
+  Player,
   Position,
   Reset,
   Segments,
@@ -11,10 +14,30 @@ import {
 } from "../traits";
 import { actions } from "../actions";
 import { STARTING_SNAKE_LENGTH } from "../constants";
+import { init, test_init } from "../main";
 
 export function handleReset(world: World) {
   if (!world.has(Reset)) return;
-  const { setRoundReset, resetGrid, destroyFood } = actions(world);
+  const {
+    setPlaying,
+    setRoundReset,
+    setGameOver,
+    resetGrid,
+    destroyFood,
+    destroyPlayer,
+  } = actions(world);
+  if (world.has(GameOver)) {
+    setRoundReset(false);
+    setGameOver(false);
+    setPlaying(false);
+    world.query(Player).forEach((entity) => {
+      destroyPlayer(entity);
+    });
+    destroyFood(world.queryFirst(Food)!);
+    resetGrid();
+    init();
+    return;
+  }
   setRoundReset(false);
   resetGrid();
   console.log("handleReset");

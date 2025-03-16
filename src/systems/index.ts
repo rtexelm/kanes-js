@@ -13,3 +13,4 @@ export { showSplashScreen } from "./showSplashScreen";
 export { detectRoundEnd } from "./detectRoundEnd";
 export { updateRoundEnd } from "./updateRoundEnd";
 export { handleReset } from "./handleReset";
+// export { handleGameOver } from "./handleGameOver";

@@ -96,6 +96,8 @@ function tick() {
       canvasElementRight.height
     );
 
+    // Draw Colored Outlines
+    canvasLeft.lineWidth = 10.0;
     canvasLeft.strokeStyle = "#00ff00";
     canvasLeft.strokeRect(
       0,
@@ -103,7 +105,9 @@ function tick() {
       canvasElementLeft.width,
       canvasElementLeft.height
     );
+    canvasLeft.lineWidth = 1.0;
 
+    canvasRight.lineWidth = 10.0;
     canvasRight.strokeStyle = "red";
     canvasRight.strokeRect(
       0,
@@ -111,6 +115,7 @@ function tick() {
       canvasElementRight.width,
       canvasElementRight.height
     );
+    canvasRight.lineWidth = 1.0;
 
     // Scan the left half of the canvas
     let leftHalfImageData = canvasLeft.getImageData(
