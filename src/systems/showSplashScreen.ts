@@ -11,6 +11,7 @@ export function showSplashScreen(world: World, sketch: p5) {
   sketch.text("SERPENT QROSSING", sketch.width / 2, sketch.height / 7);
   sketch.pop();
   sketch.push();
+  sketch.fill("#ff0000");
   sketch.textFont("Born2bSportyFS");
   sketch.textSize(70);
   sketch.text(
