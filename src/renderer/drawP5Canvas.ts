@@ -6,8 +6,8 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from "../constants";
 
 export const drawP5Canvas = (sketch: p5) => {
   sketch.preload = () => {
-    sketch.loadFont("assets/fonts/tetricide-brk/tetri.ttf");
-    sketch.loadFont("assets/fonts/born2bsporty-fs/Born2bSportyFS.otf");
+    sketch.loadFont("/fonts/tetricide-brk/tetri.ttf");
+    sketch.loadFont("/fonts/born2bsporty-fs/Born2bSportyFS.otf");
   };
   sketch.setup = () => {
     sketch.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
