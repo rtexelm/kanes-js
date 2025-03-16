@@ -36,7 +36,7 @@ export function init() {
   createPlayer(startX2, startY2, "#00ff00", "Green", "qrL", PLAYER2_INIT_INPUT);
 }
 // test init
-// TODO return this to init
+// TODO return this to init if prsenting
 export function test_init() {
   const { createPlayer, setWrap } = actions(world);
   setWrap();
@@ -44,7 +44,7 @@ export function test_init() {
   createPlayer(startX2, startY2, "#00ff00", "Green", "arrows", { x: -1, y: 0 });
 }
 
-test_init();
+init();
 
 // Defining a varibale to contain the p5 instance will expose the sytem functions to the window allowing for the canvas to be drawn because the p5 library is global, detecting the system functions
 let snakeP5 = new p5(drawP5Canvas, "game");

@@ -51,10 +51,10 @@ export function gameLoopP5(sketch: p5) {
   if (playing) {
     // Input phase
     updateTime(world);
-    // pollInputQR(world, sketch);
+    pollInputQR(world, sketch);
 
     // Update phase
-    applyInputP5(world);
+    applyInputQR(world);
     updateMovementP5(world);
     updateSegments(world);
     detectCollisions(world);

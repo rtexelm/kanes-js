@@ -40,7 +40,6 @@ export function handleReset(world: World) {
   }
   setRoundReset(false);
   resetGrid();
-  console.log("handleReset");
   world
     .query(Position, StartPosition, Segments, Length)
     .updateEach(([position, startPos, segments, length], entity) => {

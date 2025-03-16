@@ -21,7 +21,6 @@ export function detectCollisions(world: World) {
     const gridPosition = map[headY][headX];
 
     if (gridPosition > 0) {
-      console.log([gridPosition, headX, headY]);
       // Collided with player
       lives.value -= 1;
       entity.add(Dead);

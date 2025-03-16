@@ -157,7 +157,7 @@ export function pollInputsP5(world: World, sketch: p5) {
     }
 
     // Check for "arrows" control scheme
-    else if (
+    if (
       controlsScheme === "arrows" &&
       [
         sketch.UP_ARROW,
@@ -186,7 +186,7 @@ export function pollInputsP5(world: World, sketch: p5) {
   });
 }
 
-const DEBOUNCE = 800;
+const DEBOUNCE = 500;
 
 let lastQRReadTimeL = 0;
 let lastQRReadTimeR = 0;
@@ -218,38 +218,50 @@ export function pollInputQR(world: World, sketch: p5) {
       const currentVelocityY = velocity.y;
 
       if (
+        current - lastQRReadTimeL < DEBOUNCE &&
+        lastQRReadL === qrInputs.qrL
+      ) {
+        qrInputs.qrL = null;
+      }
+      if (
+        current - lastQRReadTimeR < DEBOUNCE &&
+        lastQRReadR === qrInputs.qrR
+      ) {
+        qrInputs.qrR = null;
+      }
+
+      if (
         controlsScheme === "qrL" &&
+        qrInputs.qrL !== null &&
         (current - lastQRReadTimeL >= DEBOUNCE || lastQRReadL !== qrInputs.qrL)
       ) {
         if (qrInputs.qrL === "LEFT") {
           horizontal = currentVelocityY;
           vertical = -currentVelocityX;
-          lastQRReadTimeL = current;
-          lastQRReadL = qrInputs.qrL;
         } else if (qrInputs.qrL === "RIGHT") {
           horizontal = -currentVelocityY;
           vertical = currentVelocityX;
-          lastQRReadTimeL = current;
-          lastQRReadL = qrInputs.qrL;
         }
-        qrInputs.qrL = null;
-      } else if (
+        lastQRReadTimeL = current;
+        lastQRReadL = qrInputs.qrL;
+      }
+      if (
         controlsScheme === "qrR" &&
+        qrInputs.qrR !== null &&
         (current - lastQRReadTimeR >= DEBOUNCE || lastQRReadR !== qrInputs.qrR)
       ) {
         if (qrInputs.qrR === "LEFT") {
           horizontal = currentVelocityY;
           vertical = -currentVelocityX;
-          lastQRReadTimeR = current;
-          lastQRReadR = qrInputs.qrR;
         } else if (qrInputs.qrR === "RIGHT") {
           horizontal = -currentVelocityY;
           vertical = currentVelocityX;
-          lastQRReadTimeR = current;
-          lastQRReadR = qrInputs.qrR;
         }
-        qrInputs.qrR = null;
+        lastQRReadTimeR = current;
+        lastQRReadR = qrInputs.qrR;
       }
+      // qrInputs.qrL = null;
+      // qrInputs.qrR = null;
 
       // Normalize the vector if moving diagonally.
 
@@ -261,4 +273,6 @@ export function pollInputQR(world: World, sketch: p5) {
         input.y = vertical / (length || 1);
       }
     });
+  // inputProcessedL = false;
+  // inputProcessedR = false;
 }

@@ -31,7 +31,7 @@ function drawText(
     let part = text_array[i];
     let t = part[0];
     let c = part[1];
-    sketch.textAlign(aligns[i]);
+    sketch.textAlign(sketch.CENTER);
     sketch.fill(c);
     sketch.text(t, x, posY);
     posY += yStep;
@@ -103,7 +103,7 @@ export function syncRendererP5(world: World, sketch: p5) {
     if (loserColor && !winnerColor) {
       let textArray = [
         [loserColor.toUpperCase(), colorMap[loserColor]],
-        ["KILLED", "gold"],
+        ["QROSSED", "gold"],
         ["ITSELF!", "gold"],
       ];
       drawText(sketch.width / 2, sketch.height / 3, textArray, sketch);
@@ -117,7 +117,7 @@ export function syncRendererP5(world: World, sketch: p5) {
     } else {
       let textArray = [
         [loserColor.toUpperCase(), colorMap[loserColor]],
-        ["HIT", "gold"],
+        ["QROSSED", "gold"],
         [`${winnerColor.toUpperCase()}!`, colorMap[winnerColor]],
       ];
       drawText(sketch.width / 2, sketch.height / 3, textArray, sketch);
@@ -144,7 +144,7 @@ export function syncRendererP5(world: World, sketch: p5) {
       drawText(sketch.width / 2, sketch.height / 3, textArray, sketch);
     } else {
       let textArray = [
-        ["NO  ", colorMap["Green"]],
+        ["NO", colorMap["Green"]],
         ["VICTOR", "gold"],
         ["STANDS!", colorMap["Red"]],
       ];
