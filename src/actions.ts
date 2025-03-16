@@ -9,7 +9,6 @@ import {
   Segments,
   Length,
   Wrap,
-  Collisions,
   inPlay,
   Lives,
   RoundEnd,
@@ -71,6 +70,27 @@ export const actions = createActions((world) => ({
     return food;
   },
   destroyFood: (food: Entity) => {
+    const { x, y } = food.get(Position)!;
+    const { width, height } = food.get(Food)!;
+    const { map } = world.get(Grid)!;
+    for (let dy = 0; dy < height; dy++) {
+      for (let dx = 0; dx < width; dx++) {
+        const foodPosX = x + dx;
+        const foodPosY = y + dy;
+
+        // Ensure we're within the grid bounds before setting the food position
+        if (
+          foodPosY >= 0 &&
+          foodPosY < map.length &&
+          foodPosX >= 0 &&
+          foodPosX < map[0].length
+        ) {
+          if (map[foodPosY][foodPosX] < 0) {
+            map[foodPosY][foodPosX] = 0;
+          }
+        }
+      }
+    }
     food.destroy();
   },
   setWrap: () => WRAP_AROUND && world.add(Wrap),

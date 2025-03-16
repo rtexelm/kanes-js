@@ -30,7 +30,7 @@ export function detectCollisions(world: World) {
       // Collided with food
       const { destroyFood } = actions(world);
       const food = world.queryFirst(Food)!;
-      length.value += 5;
+      length.value += 10;
       destroyFood(food);
     }
   });

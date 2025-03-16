@@ -90,12 +90,6 @@ class CollisionSystem extends System {
         snakeLength.length += 5; // Increase snake length
         world.respawnFood();
       }
-
-      // TODO: Add logic for snake collision with itself
-
-      // TODO: Add logic for snake collision with other snakes
-
-      // TODO: Add logic for snake collision with walls
     });
   }
 }

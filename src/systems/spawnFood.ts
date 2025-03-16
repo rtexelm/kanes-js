@@ -8,8 +8,8 @@ export function spawnFood(world: World) {
 
   if (!food) {
     const { dimensions } = world.get(Grid)!;
-    const x = Math.floor(Math.random() * dimensions.x);
-    const y = Math.floor(Math.random() * dimensions.y);
+    const x = Math.floor(Math.random() * dimensions.x - 1);
+    const y = Math.floor(Math.random() * dimensions.y - 1);
     createFood(x, y);
   }
 }

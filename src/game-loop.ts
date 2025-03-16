@@ -14,7 +14,6 @@ import {
   detectCollisions,
   updateGrid,
   spawnFood,
-  enforceCollisions,
   showSplashScreen,
   applyInputQR,
   updateRoundEnd,
@@ -52,10 +51,10 @@ export function gameLoopP5(sketch: p5) {
   if (playing) {
     // Input phase
     updateTime(world);
-    pollInputQR(world, sketch);
+    // pollInputQR(world, sketch);
 
     // Update phase
-    applyInputQR(world);
+    applyInputP5(world);
     updateMovementP5(world);
     updateSegments(world);
     detectCollisions(world);
@@ -70,7 +69,6 @@ export function gameLoopP5(sketch: p5) {
     // Reset phase
     handleReset(world);
   } else {
-    // TODO: Add game over screen
     showSplashScreen(world, sketch);
     pollInputQR(world, sketch);
   }

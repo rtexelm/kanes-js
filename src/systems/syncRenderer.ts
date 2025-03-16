@@ -17,6 +17,7 @@ const colorMap: { [key: string]: string } = {
   Green: "#00ff00",
 };
 
+// Function to draw text with different alignments and colors
 function drawText(
   x: number,
   y: number,
@@ -78,13 +79,13 @@ export function syncRendererP5(world: World, sketch: p5) {
     });
   // Draw food
   world.query(Food, Position).updateEach(([food, position]) => {
-    const { color } = food;
+    const { color, width, height } = food;
     sketch.fill(color);
     sketch.rect(
       position.x * cell.width,
       position.y * cell.height,
-      cell.width,
-      cell.height
+      cell.width * width,
+      cell.height * height
     );
   });
 
