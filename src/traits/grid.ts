@@ -5,6 +5,7 @@ import {
   GRID_HEIGHT,
   GRID_WIDTH,
 } from "../constants";
+import { currentCanvasDimensions } from "../renderer/drawP5Canvas";
 
 export const Grid = trait({
   dimensions: { x: GRID_WIDTH, y: GRID_HEIGHT },

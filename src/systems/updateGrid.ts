@@ -1,7 +1,17 @@
 import { World } from "koota";
 import { Position, Player, Segments, Grid, Food } from "../traits";
+import { currentCanvasDimensions } from "../renderer/drawP5Canvas";
 
 export function updateGrid(world: World) {
+  const { width: canvasWidth, height: canvasHeight } = currentCanvasDimensions;
+  const { cell, dimensions } = world.get(Grid)!;
+  const newCellWidth = canvasWidth / dimensions.x;
+  const newCellHeight = canvasHeight / dimensions.y;
+
+  if (cell.width !== newCellWidth || cell.height !== newCellHeight) {
+    world.set(Grid, { cell: { width: newCellWidth, height: newCellHeight } });
+  }
+
   const results = world.query(Position, Player, Segments);
   const food = world.queryFirst(Food);
   const { x: foodX, y: foodY } = food?.get(Position) ?? { x: 0, y: 0 };
