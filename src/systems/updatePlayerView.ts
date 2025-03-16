@@ -68,38 +68,33 @@ function updateLatestSegment(
 }
 
 export function updatePlayerView(world: World) {
-  const viewport = document.querySelector(".viewport");
-
-  const results = world.query(Player, Position, Velocity, PrevVelocity);
-  results.updateEach(([player, position, velocity, prevVelocity]) => {
-    const { color, segments, tail } = player;
-
-    // if (!segments.length) {
-    //   console.log("creatingFirstSegment");
-
-    //   const segmentElement = createSegmentElement(position, tail, color);
-    //   viewport?.appendChild(segmentElement);
-    // }
-    if (velocity.x !== prevVelocity.x || velocity.y !== prevVelocity.y) {
-      const segmentElement = createSegmentElement(position, segments[0], color);
-      viewport?.appendChild(segmentElement);
-    }
-
-    const allSegmentElements = viewport?.querySelectorAll(".segment");
-    const latestSegment = allSegmentElements?.[
-      allSegmentElements?.length - 1
-    ] as HTMLElement;
-    console.log("latestSegment", latestSegment);
-    if (latestSegment) {
-      console.log("updatingLatestSegment");
-      updateLatestSegment(position, segments[0], latestSegment);
-    }
-
-    // const snakeCoordinates = [position, ...segments, tail];
-    // console.log(snakeCoordinates);
-    // for (let i = 0; i < snakeCoordinates.length - 1; i++) {
-    //   const from = snakeCoordinates[i];
-    //   const to = snakeCoordinates[i + 1];
-    // }
-  });
+  // const viewport = document.querySelector(".viewport");
+  // const results = world.query(Player, Position, Velocity, PrevVelocity);
+  // results.updateEach(([player, position, velocity, prevVelocity]) => {
+  //   const { color, segments, tail } = player;
+  //   // if (!segments.length) {
+  //   //   console.log("creatingFirstSegment");
+  //   //   const segmentElement = createSegmentElement(position, tail, color);
+  //   //   viewport?.appendChild(segmentElement);
+  //   // }
+  //   if (velocity.x !== prevVelocity.x || velocity.y !== prevVelocity.y) {
+  //     const segmentElement = createSegmentElement(position, segments[0], color);
+  //     viewport?.appendChild(segmentElement);
+  //   }
+  //   const allSegmentElements = viewport?.querySelectorAll(".segment");
+  //   const latestSegment = allSegmentElements?.[
+  //     allSegmentElements?.length - 1
+  //   ] as HTMLElement;
+  //   console.log("latestSegment", latestSegment);
+  //   if (latestSegment) {
+  //     console.log("updatingLatestSegment");
+  //     updateLatestSegment(position, segments[0], latestSegment);
+  //   }
+  //   // const snakeCoordinates = [position, ...segments, tail];
+  //   // console.log(snakeCoordinates);
+  //   // for (let i = 0; i < snakeCoordinates.length - 1; i++) {
+  //   //   const from = snakeCoordinates[i];
+  //   //   const to = snakeCoordinates[i + 1];
+  //   // }
+  // });
 }
