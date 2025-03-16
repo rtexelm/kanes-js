@@ -1,9 +1,10 @@
 import p5 from "p5";
 import { World } from "koota";
-import { inPlay, Input, Player, Time, Velocity } from "../traits";
+import { Food, inPlay, Input, Player, Time, Velocity } from "../traits";
 import { actions } from "../actions";
 // @ts-ignore
 import { qrInputs } from "../jsqr";
+import { init } from "../main";
 
 // Poll the input from the user with dom system
 const keys = {
@@ -195,7 +196,14 @@ let lastQRReadL: string | null = null;
 let lastQRReadR: string | null = null;
 
 export function pollInputQR(world: World, sketch: p5) {
-  const { setPlaying } = actions(world);
+  const {
+    setPlaying,
+    setRoundReset,
+    setGameOver,
+    destroyPlayer,
+    destroyFood,
+    resetGrid,
+  } = actions(world);
   const { current } = world.get(Time)!;
 
   const playing = world.has(inPlay);
@@ -206,13 +214,6 @@ export function pollInputQR(world: World, sketch: p5) {
 
       let horizontal = 0;
       let vertical = 0;
-
-      if (
-        (!playing && sketch.key === "x") ||
-        (!playing && qrInputs.qrL === "START") ||
-        (!playing && qrInputs.qrR === "START")
-      )
-        setPlaying(true);
 
       const currentVelocityX = velocity.x;
       const currentVelocityY = velocity.y;
@@ -229,6 +230,32 @@ export function pollInputQR(world: World, sketch: p5) {
       ) {
         qrInputs.qrR = null;
       }
+
+      if (
+        (!playing && sketch.key === "x") ||
+        (!playing && qrInputs.qrL === "START") ||
+        (!playing && qrInputs.qrR === "START")
+      ) {
+        setPlaying(true);
+        lastQRReadL = qrInputs.qrL;
+        lastQRReadR = qrInputs.qrR;
+      }
+      // if (
+      //   (playing && qrInputs.qrL === "START") ||
+      //   (playing && qrInputs.qrR === "START")
+      // ) {
+      //   setRoundReset(false);
+      //   setGameOver(false);
+      //   setPlaying(false);
+      //   world.query(Player).forEach((entity) => {
+      //     destroyPlayer(entity);
+      //   });
+      //   destroyFood(world.queryFirst(Food)!);
+      //   resetGrid();
+      //   init();
+      //   lastQRReadL = qrInputs.qrL;
+      //   lastQRReadR = qrInputs.qrR;
+      // }
 
       if (
         controlsScheme === "qrL" &&

@@ -14,4 +14,4 @@ export const WRAP_AROUND = true;
 // Allow self-collision scoring
 export const SELF_COLLISION = true;
 // Number of lives per game (lose at 0)
-export const LIVES = 8;
+export const LIVES = 3;
