@@ -27,7 +27,7 @@ export const drawP5Canvas = (sketch: p5) => {
 
     // sketch.pixelDensity(window.devicePixelRatio);
     // sketch.createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-    sketch.frameRate(29);
+    sketch.frameRate(29); // 29 frammes causes a skip over the splash screen on game over
     sketch.noStroke();
   };
 
